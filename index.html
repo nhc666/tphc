@@ -9,7 +9,8 @@ gg.toast("鹤辰辅助开启：99999998%...")
 gg.sleep(460)
 gg.toast("鹤辰辅助开启：99999999%...")
 gg.sleep(100)
-function YY998()  gg.playMusic("https://sharefs.ali.kugou.com/202111131014/f7769a3e6799e6e50b4a2958f270a6b9/KGTX/CLTX001/b1fe0c99e07d20ca0275987e3b7ff3f8.mp3") end 
+function YY998() 
+gg.playMusic("https://sharefs.ali.kugou.com/202111131014/f7769a3e6799e6e50b4a2958f270a6b9/KGTX/CLTX001/b1fe0c99e07d20ca0275987e3b7ff3f8.mp3") end 
 a = io.open("/sdcard/鹤辰配置文件.txt", "rb") if a == nil then user = "" pass = "" else
 a = io.open("/sdcard/鹤辰配置文件.txt"):read("*a") zh = a:match("🍭(.-)🍭") if a == "" then zh = "" end end
 dI=gg.prompt({"💚💙💜输入你的迷你号💖❤️💛","开启网易云"},{[1] = zh,[2] = nil},{[1] = "number",[2] = "checkbox"}) if dI[2] ==true then  YY998() end   zh = dI[1]  io.open("/sdcard/鹤辰配置文件.txt", "w") io.open("/sdcard/鹤辰配置文件.txt", "w"):write("🍭" .. zh .. "🍭"):close()
