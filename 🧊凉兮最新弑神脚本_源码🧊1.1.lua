@@ -4,7 +4,7 @@ Q=string.match(Y,string.char(104,105,116,111,107,111,116,111,40,46,43,41,116,121
 --模式匹配他们中的一切字符
 F=string.gsub(Q,string.char(34,58,34),string.char())
 K=string.gsub(F,string.char(34,44,34),string.char())
-
+gg.playMusic("http://www.ihaoge.net/kw/antiserver.kuwo.cn/anti.s?rid=MUSIC_165397002&response=res&format=mp3|aac&type=convert_url&br=128kmp3&agent=iPhone&callback=getlink&jpcallback=getlink.mp3") end   ----音乐外链
  
    function YY998() Obtain=gg.makeRequest("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json").content muchen=Obtain:match('url":"(.-)","picurl') gg.playMusic(muchen) end 
 a = io.open("/sdcard/凉兮配置文件.txt", "rb") if a == nil then user = "" pass = "" else
