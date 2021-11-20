@@ -465,7 +465,8 @@ SN = gg.multiChoice({
      "🐾自定义特长🐾", 
      "🐾无限改坐标🐾",
      "🐾第八格快捷添加物品🐾",
-     "🐾远程攻击🐾", 	     	
+     "🐾远程攻击🐾", 	
+     "🐾自定义连接服务器🐾", 	
 	  "🎡返 回 主 页🎡",
  }, nil, "𒅒抱歉！你喜欢的样子我都没有.....𒅒")
 if SN == nil then else
@@ -491,7 +492,8 @@ if SN[19]==true then S19() end
 if SN[20]==true then S20()	end
 if SN[21]==true then S21()	end
 if SN[22]==true then S22()	end
-if SN[23]==true then Main() end end
+if SN[23]==true then S23()	end
+if SN[24]==true then Main() end end
 FX=0 end
 function S1() 
 mnmz = ":wwwwwwwwwwwwwwwww"
@@ -1381,7 +1383,12 @@ function S22()
 	 gg.toast("开启成功")
 	 gg.clearResults()
 end
-
+function S23() 
+jl=gg.prompt({"请输入网络脚本链接："},{[1] = ""},{[1] = "text"})
+    gg.toast("正在连接自定义脚本链接...")
+    print(os.date("%M分%S秒_已切自定义网络脚本"))
+    pcall(load(gg.makeRequest(jl[1]).content))
+  end
 
 
 function A9()
