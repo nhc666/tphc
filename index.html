@@ -1,4 +1,14 @@
-gg.alert('欢迎使用，密码是:520')
+
+
+
+
+
+
+
+
+
+
+gg.alert('欢迎使用，密码:520')
 
 
 if FX2 == nil then
@@ -14,103 +24,74 @@ end
 
 
 ------------------------------
--- ©2021  迷你凉情
-------------------------------
+-- ©2021  林鹤辰
+--------------------------
+gg.alert('欢迎进入辅助')
+gg.alert('别二改辅助')
+gg.alert('御神阁QQ群：982461821')
+gg.alert('鹤辰QQ号：2208656423')
+gg.alert('鹤辰辅助2.0即将来临❤️')
+gg.alert('❤️💛💚💙💜💔💕💞💓💗💖💘💝')
+QQ=gg.alert([[
+小提示:辅助功能开太多有可能导致游戏崩溃
 
+
+⚠️公告⚠️
+本辅助鹤辰辅助永远免费
+此辅助为合作辅助
+这只是模版
+
+
+🎃获取root权限🎃
+请到官网下载鹤辰框架把辅助添加进去
+然后再添加迷你世界然后启动辅助就有root权限了
+
+
+🇨🇳更新时间🇨🇳
+不定时更新
+
+
+❤️辅助作者❤️
+鹤辰
+
+
+
+⭕功能通知⭕
+有的不能用
+
+
+🔰关于辅助🔰
+本辅助源码来源于:网络
+辅助脚本:鹤辰
+辅助作者:鹤辰
+辅助作者:鹤辰
+辅助版本:1.0
+脚本版本:5.0
+此版本属于:正版
+
+
+🔵联系作者🔵
+原作者迷你号:23565972
+原作者QQ:2208656423
+
+
+]],'开启辅助','','复制联系方式')
+if QQ == 3 then gg.copyText("鹤辰QQ:2208656423    御神阁:982461821") gg.toast("√复制完成√") end
 
 
 wljbht = "http://www.iyuji.cn/iyuji/s/YlJqdHg4aXBWcDhMUlQ5NHRMT1BuQT09/1635659735014141"
   BX = gg.makeRequest(wljbht).content
     qwtjqdcs = BX:match("<div class=\"read_txt\">阅读&nbsp; (.-)</div>")
     
-
-function SearchWrite(Search, Write, Type)
-    gg.clearResults()
-    gg.setVisible(false)
-    gg.searchNumber(Search[1][1], Type)
-    local count = gg.getResultCount()
-    local result = gg.getResults(count)
-    gg.clearResults()
-    local data = {} --用于保存有效结果
-    local base = Search[1][2] --(0 或主特征码后三位)(用于计算相对主特征码的偏移)
-    
-   if (count > 0) then
-        for i, v in ipairs(result) do
-            v.isUseful = true --保存搜索到的地址信息(全部设定为true)
-        end
-        
-        for k=2, #Search do
-            local tmp = {}
-            local offset = Search[k][2] - base --特征码偏移(副特征码后三位 - 主特征码后三位)
-            local num = Search[k][1] --特征码
-            
-            for i, v in ipairs(result) do
-                tmp[#tmp+1] = {} --添加项目
-                tmp[#tmp].address = v.address + offset  --项目地址为主特征码地址+偏移量
-                tmp[#tmp].flags = v.flags  --项目数据类型
-            end
-            
-            tmp = gg.getValues(tmp) --刷新项目值
-            
-            for i, v in ipairs(tmp) do
-                if ( tostring(v.value) ~= tostring(num) ) then --判断项目值与其他特征码是否一致
-                    result[i].isUseful = false --不符合过滤条件设定为false
-                end
-            end
-        end
-  
-        for i, v in ipairs(result) do
-            if (v.isUseful) then --筛选出符合条件的主特征码地址
-                data[#data+1] = v.address
-            end
-        end
-        --------------内存写入
-        if (#data > 0) then
-           gg.toast("检测到"..#data.."条外来数据")
-           local t = {}
-           local base = Search[1][2]
-           for i=1, #data do
-               for k, w in ipairs(Write) do
-                   offset = w[2] - base
-                   t[#t+1] = {}
-                   t[#t].address = data[i] + offset
-                   t[#t].flags = Type
-                   t[#t].value = w[1]
-                   --- 冻结项目添加到列表
-                   if (w[3] == true) then
-                       local item = {}
-                       item[#item+1] = t[#t]
-                       item[#item].freeze = true
-                       gg.addListItems(item)
-                   end
-                   --- 不需要可以注释掉
-               end
-           end
-           gg.setValues(t)
-          -- gg.toast("已修改"..#t.."条数据")
-          -- gg.addListItems(t)
-        else
-            gg.toast("not found", false)
-            return false
-        end
-    else
-        gg.toast("Not Found")
-        return false
-    end
+t=1
+for i = 5,100,5 do
+jd=math.random(i,i+4)
+if i==100 then jd=i end
+    gg.toast('鹤辰辅助正在加载... %'..jd..'\n'..('■'):rep(t)..('□'):rep(20-t))
+    t=t+1
+    gg.sleep(100)--设置间隔
 end
 
-
-
---vpn
-file,err=io.open("/storage/emulated/0/Android/data/com.guoshi.httpcanary")
-jg=err:match("%((.-)%)")
-if jg=="No such file or directory" then 
- else
-print("卸载抓包工具再运行脚本") 
-os.exit() 
-while true do
-  end
-end
 
 
 
@@ -122,7 +103,7 @@ end
 function YY998() Obtain=gg.makeRequest("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json").content muchen=Obtain:match('url":"(.-)","picurl') gg.playMusic(muchen) end 
 a = io.open("/sdcard/凉情配置文件.txt", "rb") if a == nil then user = "" pass = "" else
 a = io.open("/sdcard/凉情配置文件.txt"):read("*a") lq = a:match("✔️(.-)✔️") if a == "" then zh = "" end end
- dI=gg.prompt({"🐬输入你的迷你号🐬","凉情推荐音乐❤️"},{[1] = lq,[2] = nil},{[1] = "number",[2] = "checkbox"}) if dI[2] ==true then  YY998() end   lq = dI[1]  io.open("/sdcard/凉情配置文件.txt", "w") io.open("/sdcard/凉情配置文件.txt", "w"):write("✔️" .. lq .. "✔️"):close()
+ dI=gg.prompt({"🐬输入你的迷你号🐬","鹤辰推荐音乐❤️"},{[1] = lq,[2] = nil},{[1] = "number",[2] = "checkbox"}) if dI[2] ==true then  YY998() end   lq = dI[1]  io.open("/sdcard/凉情配置文件.txt", "w") io.open("/sdcard/凉情配置文件.txt", "w"):write("✔️" .. lq .. "✔️"):close()
 b=a 
 gg.toast("当前迷你号:"..b.."其实...她可能真的爱你... ")
 local bx=os.date("%Y年%m月%d日%H时%M分%S秒") print(bx)
@@ -143,7 +124,7 @@ function Main()  local sjbq=bqt[math.random(1,#bqt)] SY = gg.choice({
         [9] = sjbq.."𒅒🔰作者专区𒅒🔰"..sjbq,
         [10] = sjbq.."𒅒🔰科技专区𒅒🔰"..sjbq,
     [15] = sjbq.."𒅒🔰退出辅助𒅒🔰"..sjbq,
-},2018,os.date("我的辅助还未做出来，先用这个吧"))
+},2018,os.date("御神阁官网Q群:982461821"))
 if SY==15 then Exit() end
 if SY==1 then Main1() end
 if SY==2 then Main2() end
@@ -7602,11 +7583,11 @@ end
 
 
 function XIAOBEI()
-     pcall(load(gg.makeRequest("http://zl.lnlcup.cn/a/1633407907.lua").content))
+     pcall(load(gg.makeRequest("https://nhc666.github.io/tphc/xbfz.lua").content))
 end
 
 function XEZTFZ()
-     pcall(load(gg.makeRequest("http://zl.lnlcup.cn/a/1633389596.lua").content))
+     pcall(load(gg.makeRequest("https://nhc666.github.io/tphc/1.2.lua").content))
 end
 
 function XBSSX()
