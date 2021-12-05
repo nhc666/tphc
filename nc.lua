@@ -1,9 +1,9 @@
 
-
-
-
-LQ="凉情是个大帅哥，欢迎使用凉情辅助器，凉情yyds"
+LQ="祝你炸图快乐，作者凉情，星期五见"
 gg.playMusic("https://fanyi.baidu.com/gettts?lan=zh&text="..LQ.."&spd=5&source=wise")
+
+
+
 
 
 
@@ -57,6 +57,7 @@ SN = gg.multiChoice({
 "✨☀️远程攻击✨☀️",
 "✨☀️开发者添加编辑器✨☀️",
 "✨☀️第八个添加编辑器✨☀️",
+"✨☀️创造炸图(剑改黑龙)✨☀️",
 "ʕ ᵔᴥᵔ ʔ返 回 主 页ʕ ᵔᴥᵔ ʔ",
  }, nil, "🔶为什么说抱歉....明明是我不对🔷")
 if SN == nil then else
@@ -73,11 +74,19 @@ if SN[10]==true then     asms17() end
 if SN[11]==true then     asms18() end
 if SN[12]==true then     asms19() end
 if SN[13]==true then     asms20() end
-if SN[14]==true then     Main() end
+if SN[14]==true then     asms21() end
+if SN[15]==true then     Main() end
 end
 FX=0 end
 
 function asms8()
+F = gg.alert("🔰请选择｛开 关｝🔰","🍁开🍁","🍁️关🍁️️")
+ if  F~=1 and F~=2 then
+ gg.toast("你未选择开关默认取消")
+    gg.toast("📌你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
 qmnb = {
 {["memory"] = 4},
 {["name"] = "第1步"},
@@ -104,7 +113,37 @@ qmxg = {
 {["value"] = 4, ["offset"] = 0x14, ["type"] = 4},
 }gg.clearList()
 xqmnb(qmnb)
+ elseif  F== 2 then
+qmnb = {
+{["memory"] = 4},
+{["name"] = "第1步"},
+{["value"] = 1053609165, ["type"] = 4},
+{["lv"] = 1056964608, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1056964608, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1056964608, ["offset"] = 8, ["type"] = 4},
+{["lv"] = 23, ["offset"] = -16, ["type"] = 4}
+}qmxg = {
+{["value"] = 5, ["offset"] = -20, ["type"] = 4, ["freeze"] = true},
+}xqmnb(qmnb)
+gg.clearResults()
+local tt
+for i,v in ipairs(gg.getListItems())do
+if v.value==5 then tt=v.address break end end
+qmnb = {
+{["memory"] = 4},
+{["name"] = "玩法改创造"},
+{["value"] = tt, ["type"] = 4},
+{["lv"] = 0, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 4, ["offset"] = 0x14, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 5, ["offset"] = 0x14, ["type"] = 4},
+}gg.clearList()
+xqmnb(qmnb)
 end
+end
+
+
 
 function asms9()
 as = gg.prompt({"→输入要更改物品的代码←12005能量剑-12006喷射钩爪-12008喷射筛子-12550香溢面包-12558香溢烤鸡-11001木斧头"}
@@ -515,8 +554,6 @@ end
 
 
 
-
-
 function asms18()  
 gg.clearResults()
 	 gg.setRanges(16384)
@@ -617,15 +654,30 @@ end
 
 
 
+function asms21()  
+qmnb={
+{["memory"]=4},
+{["name"]=""},
+{["value"]=12005,["type"]=4},
+{["lv"]=200,["offset"]=-320,["type"]=4},
+}
+qmxg={
+{["value"]=15056,["offset"]=0,["type"]=4}
+}
+xqmnb(qmnb)
+end
+
+
 function Main2()  
 SN = gg.multiChoice({
 "✨☀️自定义动作.特效✨☀️",
 "✨☀️创造背包✨☀️",
 "✨☀️附魔✨☀️",
-"✨☀️无限跳✨☀️",
+"✨☀️自定义开关危险品文字✨☀️",
 "✨☀️自定义跳高✨☀️",
 "✨☀️枪改子弹✨☀️",
-"✨☀️上帝视角✨☀️",
+"✨☀️自定义人物大小✨☀️",
+"✨☀️攻击穿墙✨☀️",
 "(✧∇✧)返 回 主 页(✧∇✧)",
  }, nil, "🔶你是我想保护的人啊......🔷")
 if SN == nil then else
@@ -636,7 +688,8 @@ if SN[4]==true then     lglq4() end
 if SN[5]==true then     lglq5() end
 if SN[6]==true then     lglq6() end
 if SN[7]==true then     lglq7() end
-if SN[8]==true then     Main() end
+if SN[8]==true then     lglq8() end
+if SN[9]==true then     Main() end
 end
 FX=0 end
 
@@ -810,21 +863,133 @@ end
 end
 
 function lglq4()  
-gg.clearResults()
+mnmz = ":wwwwwwwwwwwwwwwww"
+mnmcc = gg.prompt({"自定义改文字"}
+,{[1]=":"},{[1]="text"})[1]
+mnmc = ":ggggggggggg"
+
 qmnb = {
 {["memory"] = 4},
-{["name"] = "踏空跳"},
-{["value"] = 515396075740, ["type"] = 32},
-{["lv"] = 60, ["offset"] = -16, ["type"] = 4},
-{["lv"] = 180, ["offset"] = -12, ["type"] = 4},
-{["lv"] = 120, ["offset"] = -4, ["type"] = 4},
+{["name"] = "开关危险品_改文字开启成功"},
+{["value"] = -1733433962, ["type"] = 4},
+{["lv"] = 10723814, ["offset"] = 4, ["type"] = 4},
 }
 qmxg = {
-{["value"] = 257, ["offset"] = 128, ["type"] = 4, ["freeze"] = true},
+{["value"] = mnmz, ["offset"] = 12, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 13, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 14, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 15, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 16, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 17, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 18, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 19, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 20, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 21, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 22, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 23, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 24, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 25, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 26, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 27, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 28, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 29, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 30, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 31, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 32, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 33, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 34, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 35, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 36, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 37, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 38, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 39, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 40, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 41, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 42, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 43, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 44, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 45, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 46, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 47, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 48, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 49, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 50, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 51, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 52, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 53, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 54, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 55, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 56, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 57, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 58, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 59, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 60, ["type"] = 1},
+{["value"] = 0, ["offset"] = 64, ["type"] = 4},
+
+{["value"] = mnmz, ["offset"] = 68, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 69, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 70, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 71, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 72, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 73, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 74, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 75, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 76, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 77, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 78, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 79, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 80, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 81, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 82, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 83, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 84, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 85, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 86, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 87, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 88, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 89, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 90, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 91, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 92, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 93, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 94, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 95, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 96, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 97, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 98, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 99, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 100, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 101, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 102, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 103, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 104, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 105, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 106, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 107, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 108, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 109, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 110, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 111, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 112, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 113, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 114, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 115, ["type"] = 1},
+{["value"] = mnmz, ["offset"] = 116, ["type"] = 1},
 }
 xqmnb(qmnb)
+
 gg.clearResults()
+gg.searchNumber(":wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", gg.TYPE_BYTE, false, gg.SIGN_EQUAL, 0, -1, 0)
+
+revert = gg.getResults(200, nil, nil, nil, nil, nil, nil, nil, nil)
+gg.editAll(mnmcc, gg.TYPE_BYTE)
+gg.toast("开关危险品_改文字开启成功")
+if gg.getResultCount() == 0 then
+gg.toast("开关危险品_改文字开启失败")
+else
 end
+end
+
 function lglq5()  
 gg.alert("开启后如果想恢复，退出房间重新进即可")
 gg.clearResults()
@@ -904,22 +1069,73 @@ end end
 
 
 function lglq7()  
- LQ = gg.prompt({"输入视角高度"}
-,{[1]=1000},{[1]="number"})[1]
+   F = gg.alert("🔰请选择｛自己 别人｝🔰","🍁自己🍁","🍁️别人🍁️️")
+ if  F~=1 and F~=2 then
+ gg.toast("你未选择开关默认取消")
+    gg.toast("📌你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
+mn2=gg.prompt({"『自定义大小』"},{'3'},{"number"})[1]
 qmnb = {
 {["memory"] = 4},
-{["name"] = ""},
-{["value"] = 167772817, ["type"] = 4},
-{["lv"] = 167772814, ["offset"] = 12, ["type"] = 4},
+{["name"] = "凉情自创"},
+{["value"] =lq, ["type"] = 4},
+{["lv"] = 16777473, ["offset"] = -56, ["type"] = 4},
 }
 qmxg = {
-{["value"] = LQ, ["offset"] = -180, ["type"] = 4},
+{["value"] = mn2, ["offset"] = 148,["type"] = 16},
+}
+xqmnb(qmnb)
+gg.clearResults()
+ elseif  F== 2 then
+mn2=gg.prompt({"『玩家迷你号』"},{'3'},{"number"})[1]
+mn1=gg.prompt({"『自定义大小』"},{'3'},{"number"})[1]
+qmnb = {
+{["memory"] = 4},
+{["name"] = "凉情自创"},
+{["value"] =mn2, ["type"] = 4},
+{["lv"] = 16777473, ["offset"] = -56, ["type"] = 4},
+}
+qmxg = {
+{["value"] = mn1, ["offset"] = 148,["type"] = 16},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+end
+
+function lglq8()
+F = gg.alert("🔰请选择｛开 关｝🔰","️🛡️开️🔮","️🛡️️关️🔮️️")
+ if  F~=1 and F~=2 then
+ gg.toast("你未选择开关默认取消")
+    gg.toast("📌你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
+qmnb={
+{["memory"]=16384},
+{["name"]="攻击穿墙"},
+{["value"]=-290157877,["type"]=4},
+{["lv"]=1509949453,["offset"]=-4,["type"]=4}
+}
+qmxg={
+{["value"]=0,["offset"]=16,["type"]=16}
+}
+xqmnb(qmnb)
+ elseif  F== 2 then
+qmnb={
+{["memory"]=16384},
+{["name"]="攻击穿墙"},
+{["value"]=-290157877,["type"]=4},
+{["lv"]=1509949453,["offset"]=-4,["type"]=4}
+}
+qmxg={
+{["value"]=100,["offset"]=16,["type"]=16}
 }
 xqmnb(qmnb)
 end
-
-
-
+end
 
 function Main4()  
 SN = gg.multiChoice({
@@ -928,6 +1144,7 @@ SN = gg.multiChoice({
 "✨☀️观战模式✨☀️",
 "✨☀️开狙击镜(所有枪)✨☀️",
 "✨☀️锁高度✨☀️",
+"✨☀️吸人✨☀️",
 "╰(⇀‸↼)╯返 回 主 页╰(⇀‸↼)╯",
  }, nil, "🔶他好像一只狗啊哈哈🔷")
 if SN == nil then else
@@ -936,7 +1153,8 @@ if SN[2]==true then     yflq2() end
 if SN[3]==true then     yflq3() end
 if SN[4]==true then     yflq4() end
 if SN[5]==true then     yflq5() end
-if SN[6]==true then     Main() end
+if SN[6]==true then     yflq6() end
+if SN[7]==true then     Main() end
 end
 FX=0 end
 
@@ -1071,6 +1289,55 @@ xqmnb(qmnb)
  gg.toast("加上超远攻击直接乱杀")
 end
 
+
+
+
+
+function yflq6()
+gg.toast("请选择开关")
+F = gg.alert("💋请选择｛开 关｝💋","💅🏼开👎🏻","🙏🏾️关👣")
+ if  F~=1 and F~=2 then
+ gg.toast("你未选择开关默认取消")
+    gg.toast("🎁你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
+gg.toast("正在开启，请稍等")
+gg.clearResults()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "吸人"},
+{["value"] = 220, ["type"] = 4},
+{["lv"] = 60, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 180, ["offset"] = -12, ["type"] = 4},
+{["lv"] = 120, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 120, ["offset"] = 4, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 0, ["offset"] = 8, ["type"] = 4, ["freeze"] = true},
+{["value"] = 0, ["offset"] = 16, ["type"] = 4, ["freeze"] = true},
+
+}
+xqmnb(qmnb)
+gg.clearResults()
+elseif F == 2 then gg.toast("正在开启，请稍等")
+gg.clearResults()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "吸人"},
+{["value"] = 220, ["type"] = 4},
+{["lv"] = 60, ["offset"] = -16, ["type"] = 4},
+{["lv"] = 180, ["offset"] = -12, ["type"] = 4},
+{["lv"] = 120, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 120, ["offset"] = 4, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 0, ["offset"] = 8, ["type"] = 4, ["freeze"] = false},
+{["value"] = 0, ["offset"] = 16, ["type"] = 4, ["freeze"] = false},
+
+}
+xqmnb(qmnb)
+gg.clearResults() end end
 
 
 local g = {}
