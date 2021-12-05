@@ -1,5 +1,12 @@
 
 
+
+
+LQ="凉情是个大帅哥，欢迎使用凉情辅助器，凉情yyds"
+gg.playMusic("https://fanyi.baidu.com/gettts?lan=zh&text="..LQ.."&spd=5&source=wise")
+
+
+
 function YY998() Obtain=gg.makeRequest("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json").content muchen=Obtain:match('url":"(.-)","picurl') gg.playMusic(muchen) end 
 a = io.open("/sdcard/凉情配置文件.txt", "rb") if a == nil then user = "" pass = "" else
 a = io.open("/sdcard/凉情配置文件.txt"):read("*a") lq = a:match("✔️(.-)✔️") if a == "" then zh = "" end end
@@ -37,7 +44,7 @@ FX1=0 end
 
 function Main1()  
 SN = gg.multiChoice({
-"✨☀️修改模式✨☀️",
+"✨☀️通用创造✨☀️",
 "✨☀️修改编辑器✨☀️",
 "✨☀️家园道具✨☀️",
 "✨☀️刷勋章✨☀️",
@@ -71,14 +78,32 @@ end
 FX=0 end
 
 function asms8()
-mn2 = gg.prompt({"输入模式代码，0生存，1创造，2极限生存，3创造生存，4玩法创造，5玩法生存:"},
-{[1]=4--[[编辑框文字]]},
-{[1]="number"})[1]
-gg.setRanges(4)
-local dataType = 32
-local tb1 = {{4294973296, 0},}
-local tb2 = {{mn2, -0xF8,true}, }
-SearchWrite(tb1, tb2,  dataType)
+qmnb = {
+{["memory"] = 4},
+{["name"] = "第1步"},
+{["value"] = 1053609165, ["type"] = 4},
+{["lv"] = 1056964608, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 1056964608, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1056964608, ["offset"] = 8, ["type"] = 4},
+{["lv"] = 23, ["offset"] = -16, ["type"] = 4}
+}qmxg = {
+{["value"] = 5, ["offset"] = -20, ["type"] = 4, ["freeze"] = true},
+}xqmnb(qmnb)
+gg.clearResults()
+local tt
+for i,v in ipairs(gg.getListItems())do
+if v.value==5 then tt=v.address break end end
+qmnb = {
+{["memory"] = 4},
+{["name"] = "玩法改创造"},
+{["value"] = tt, ["type"] = 4},
+{["lv"] = 0, ["offset"] = -4, ["type"] = 4},
+{["lv"] = 5, ["offset"] = 0x14, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 4, ["offset"] = 0x14, ["type"] = 4},
+}gg.clearList()
+xqmnb(qmnb)
 end
 
 function asms9()
@@ -600,6 +625,7 @@ SN = gg.multiChoice({
 "✨☀️无限跳✨☀️",
 "✨☀️自定义跳高✨☀️",
 "✨☀️枪改子弹✨☀️",
+"✨☀️上帝视角✨☀️",
 "(✧∇✧)返 回 主 页(✧∇✧)",
  }, nil, "🔶你是我想保护的人啊......🔷")
 if SN == nil then else
@@ -609,7 +635,8 @@ if SN[3]==true then     lglq3() end
 if SN[4]==true then     lglq4() end
 if SN[5]==true then     lglq5() end
 if SN[6]==true then     lglq6() end
-if SN[7]==true then     Main() end
+if SN[7]==true then     lglq7() end
+if SN[8]==true then     Main() end
 end
 FX=0 end
 
@@ -873,6 +900,24 @@ qmxg = {
 }
 xqmnb(qmnb)
 end end
+
+
+
+function lglq7()  
+ LQ = gg.prompt({"输入视角高度"}
+,{[1]=1000},{[1]="number"})[1]
+qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"] = 167772817, ["type"] = 4},
+{["lv"] = 167772814, ["offset"] = 12, ["type"] = 4},
+}
+qmxg = {
+{["value"] = LQ, ["offset"] = -180, ["type"] = 4},
+}
+xqmnb(qmnb)
+end
+
 
 
 
