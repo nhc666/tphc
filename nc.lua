@@ -49,6 +49,7 @@ SN = gg.multiChoice({
 "✨☀️伪房服主✨☀️",
 "✨☀️远程攻击✨☀️",
 "✨☀️开发者添加编辑器✨☀️",
+"✨☀️第八个添加编辑器✨☀️",
 "ʕ ᵔᴥᵔ ʔ返 回 主 页ʕ ᵔᴥᵔ ʔ",
  }, nil, "🔶为什么说抱歉....明明是我不对🔷")
 if SN == nil then else
@@ -64,7 +65,8 @@ if SN[9]==true then     asms16() end
 if SN[10]==true then     asms17() end
 if SN[11]==true then     asms18() end
 if SN[12]==true then     asms19() end
-if SN[13]==true then     Main() end
+if SN[13]==true then     asms20() end
+if SN[14]==true then     Main() end
 end
 FX=0 end
 
@@ -544,6 +546,51 @@ end
 end
 end
 end
+
+
+
+function asms20()  
+function ss(a)gg.setRanges(4)gg.clearResults()gg.searchNumber(a.address,4)
+local a=gg.getResults(1)gg.clearResults()return a[1].value end
+gg.toast("⚠️保持第8格没有物品⚠️")
+qmnb = {
+{["memory"] = 4},
+{["name"] = ""},
+{["value"]=10500,["type"]=4},
+{["lv"]=2,["offset"]=56,["type"]=4},
+{["lv"]=3,["offset"]=60,["type"]=4},
+{["lv"]=2,["offset"]=64,["type"]=4},
+}
+qmxg={
+{["value"]=10500,["offset"]=0,["type"]=4,["freeze"] = true}
+} 
+xqmnb(qmnb)
+gg.clearResults()local tt
+for i,v in ipairs(gg.getListItems())do
+if v.value==10500 then tt=ss(v)break end end if tt then
+qmnb = {
+{["memory"] = 4},
+{["name"] = "添加编辑器"},
+{["value"] = 4062199224110941167, ["type"] = 32},
+{["lv"] = -3349162836, ["offset"] = 4, ["type"] = 32},
+{["lv"] = 1006, ["offset"] = -0xD0, ["type"] = 4},
+{["lv"] = 1005, ["offset"] = -0x1A0, ["type"] = 4},
+{["lv"] = 1004, ["offset"] = -0x270, ["type"] = 4},
+{["lv"] = 1003, ["offset"] = -0x340, ["type"] = 4},
+{["lv"] = 1002, ["offset"] = -0x410, ["type"] = 4},
+{["lv"] = 1001, ["offset"] = -0x4E0, ["type"] = 4},
+{["lv"] = 1000, ["offset"] = -0x5B0, ["type"] = 4},
+}
+qmxg = {
+{["value"] = tt, ["offset"] = 120, ["type"] = 4},
+}
+xqmnb(qmnb)
+gg.clearResults()
+end
+end
+
+
+
 
 function Main2()  
 SN = gg.multiChoice({
